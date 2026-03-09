@@ -3,1155 +3,377 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>30/4 Ngày Toàn Thắng</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Oswald:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
-    <style>
-        :root {
-            --bg-deep: #3c0d12;
-            --gold: #f0c681;
-            --gold-glow: rgba(240, 198, 129, 0.4);
-            --glass: rgba(255, 255, 255, 0.06);
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
-
-        /* ==========================================================
-           1. THIẾT LẬP CHUNG VÀ NỀN BẢN ĐỒ (SẮC NÉT 100%)
-           ========================================================== */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { 
-            width: 100%; font-family: 'Times New Roman', serif; transition: 0.4s ease; 
-            /* NỀN CỐ ĐỊNH, HIỂN THỊ RÕ RÀNG KHÔNG MỜ */
-            background: url('nen1.png') center/cover fixed no-repeat; 
-        }
-        
-        /* ĐÃ XÓA OVERFLOW-X: HIDDEN ĐỂ THANH MENU KHÔNG BỊ MẤT KHI CUỘN */
-        .wrapper { display: flex; flex-direction: column; min-height: 100vh; position: relative; background: transparent; }
-
-        /* ==========================================================
-           2. BANNER TOÀN THẮNG
-           ========================================================== */
-        .banner-half { height: 45vh; position: relative; overflow: hidden; background: #0b5fb3; }
-        .tank-bg { position: absolute; inset: 0; z-index: 1; }
-        .tank-bg img { width: 100%; height: 100%; object-fit: cover; }
-        .flag-part { position: absolute; inset: 0; z-index: 2; background: url('co1.png') left/cover; clip-path: polygon(0 0, 50% 0, 35% 100%, 0 100%); filter: brightness(0.9); }
-        .big-date { position: absolute; top: -1vh; left: 1vw; font-size: 15vw; font-weight: bold; color: rgba(78,241,241,0.15); z-index: 3; }
-        .brand { position: absolute; top: 8vh; left: 2vw; text-align: center; z-index: 10; }
-        .logo { width: 18vw; height: auto; }
-        .brand-name { font-family: 'Montserrat', sans-serif; color: #f3ff09; font-size: 2.2vw; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); margin-top: 10px; }
-        .slogan .txt { font-family: 'Oswald', sans-serif; position: absolute; color: #ffcc00; font-size: 2.1vw; font-weight: bold; text-shadow: 2px 2px 8px #000; z-index: 20; }
-        .t1{top:1vh;left:43vw}.t2{top:6vh;left:43vw}.t3{top:3vh;left:49vw}.t4{top:12vh;left:42vw}.t5{top:9vh;left:47vw}.t6{top:15vh;left:45vw}.t7{top:18vh;left:38vw}.t8{top:21vh;left:43vw}.t9{top:24vh;left:36vw}.t10{top:27vh;left:41vw}.t11{top:30vh;left:36vw}.t12{top:33vh;left:39vw}.t13{top:36vh;left:32vw}
-
-        /* ==========================================================
-           3. MENU DÍNH TRẦN (ĐÃ FIX LỖI MẤT KHI CUỘN)
-           ========================================================== */
-        .red-nav { background: #b30000; z-index: 1000; position: sticky; top: 0; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .main-menu { display: flex; justify-content: center; list-style: none; flex-wrap: wrap; margin: 0; padding: 0;}
-        .main-menu > li { position: relative; }
-        .main-menu > li > a { display: block; padding: 15px 25px; color: #fff; text-decoration: none; font-weight: bold; font-size: 22px; transition: 0.3s; border-left: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
-        .main-menu > li:hover > a { background: #00aaff; }
-        .submenu { display: none; position: absolute; top: 100%; left: 0; background: #fff; min-width: 240px; border: 2px solid #00aaff; border-radius: 0 0 20px 20px; list-style: none; box-shadow: 0 8px 16px rgba(0,0,0,0.2); z-index: 1001; padding: 0;}
-        .main-menu > li:hover .submenu { display: block; }
-        .submenu li a { display: block; padding: 12px 20px; color: #333; text-decoration: none; font-size: 18px; border-bottom: 1px solid #eee; text-align: left; }
-        .submenu li a:hover { background: #f0f8ff; color: #00aaff; }
-
-        /* ==========================================================
-           4. BỐ CỤC KHỐI TRẮNG - VIỀN ĐỎ CHUẨN XÁC
-           ========================================================== */
-        .container { max-width: 1000px; margin: 50px auto; padding: 0 20px; }
-        section { margin-bottom: 80px; scroll-margin-top: 100px; }
-        .main-title { text-align: center; color: #b30000; font-size: 2.8em; margin-bottom: 50px; text-transform: uppercase; font-weight:bold; background: rgba(255,255,255,0.9); display: inline-block; padding: 10px 30px; border-radius: 10px; border: 3px solid #b30000; left: 50%; position: relative; transform: translateX(-50%); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        
-        .article-block { background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 15px; border: 4px solid #b30000; box-shadow: 0 15px 40px rgba(0,0,0,0.3); margin-bottom: 40px; line-height: 1.8; }
-
-        /* VĂN BẢN VÀ NÚT ĐỌC THÊM */
-        .clamp-text { font-size: 1.25em; text-align: justify; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; transition: 0.3s ease; }
-        .clamp-text.expanded { -webkit-line-clamp: unset; }
-        .read-more-btn { display: inline-block; color: #0b5fb3; font-size: 1.1em; font-weight: bold; font-style: italic; cursor: pointer; margin-bottom: 20px; transition: 0.3s; margin-left: 5px; }
-        .read-more-btn:hover { color: #b30000; text-decoration: underline; }
-
-        .article-block h3 { color: #b30000; font-size: 1.8em; margin: 40px 0 15px 0; border-left: 5px solid #ffcc00; padding-left: 15px; }
-        .article-block ul { padding-left: 40px; font-size: 1.25em; line-height: 1.8; margin-bottom: 20px;}
-        .article-block blockquote { background: rgba(0,0,0,0.05); padding: 20px; border-left: 5px solid #b30000; font-style: italic; font-size: 1.3em; margin: 20px 0; border-radius: 0 10px 10px 0; }
-
-        /* ẢNH TƯ LIỆU VÀ CHÚ THÍCH */
-        figure.img-box { text-align: center; margin: 40px 0; display: flex; flex-direction: column; align-items: center; }
-        figure.img-box img { width: 100%; max-width: 600px; aspect-ratio: 600/400; object-fit: cover; border-radius: 10px; border: 2px solid #b30000; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); transition: 0.4s; cursor: pointer; }
-        figure.img-box img:hover { transform: scale(1.02); }
-        figure.img-box figcaption { font-style: italic; color: #333; margin-top: 15px; font-size: 1.15em; padding: 0 20px; font-weight: 500; }
-        figure.img-box figcaption strong { color: #b30000; }
-
-        /* THẺ CARD KẾT QUẢ Ý NGHĨA */
-        .meaning-card { display: flex; align-items: center; background: rgba(255,255,255,0.95); margin: 40px auto; border-radius: 18px; border: 4px solid #b30000; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: 0.4s; }
-        .meaning-card:hover { transform: translateY(-10px); }
-        .meaning-card img { width: 40%; height: 350px; object-fit: cover; border: none; cursor: pointer;}
-        .meaning-card .meaning-text { width: 60%; padding: 30px; }
-        .meaning-card h3 { color: #b30000; font-size: 1.8em; margin-bottom: 15px; }
-
-        /* GRID VÀ VIDEO */
-        .document-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px; }
-        .video-container { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 40px; padding: 30px 10px; background: rgba(255,255,255,0.95); border-radius: 15px; border: 3px dashed #b30000; }
-        .video-item { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 420px; }
-        .video-item video { width: 100%; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); border: 3px solid #b30000; }
-        .video-item p { margin-top: 20px; font-weight: bold; color: #b30000; font-size: 1.4em; text-transform: uppercase; }
-
-        .youtube-links { margin-top: 20px; padding: 20px; background: #f9f9f9; border-left: 5px solid #b30000; border-radius: 5px; border: 1px solid #ddd; }
-        .youtube-links h4 { color: #b30000; font-size: 1.4em; margin-bottom: 15px; }
-        .youtube-links a { display: block; color: #0b5fb3; font-size: 1.2em; font-weight: bold; margin-bottom: 10px; text-decoration: none; }
-        
-        .books-list { list-style: none; padding: 0; }
-        .books-list li { display: flex; gap: 20px; background: #fff; margin-bottom: 20px; padding: 20px; border-radius: 10px; border: 3px solid #b30000; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; align-items: flex-start; }
-        .books-list li:hover { transform: translateX(5px); }
-        .books-list img { width: 120px; height: auto; border-radius: 5px; border: none; cursor: pointer;}
-        .books-list h4 { color: #b30000; font-size: 1.4em; margin-bottom: 10px; }
-
-        /* ==================================================================
-           5. CSS KHU VỰC THÀNH VIÊN NHÓM (GIAO DIỆN INDEX - DỮ LIỆU NHÓM 3)
-           ================================================================== */
-        .task-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 30px;
-        }
-
-        .member-card {
-            background: var(--glass);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            position: relative;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            cursor: pointer;
-            overflow: hidden;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            color: white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            margin-bottom: 0;
-        }
-
-        .member-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 30px;
-            padding: 2px;
-            background: linear-gradient(135deg, transparent 40%, var(--gold), transparent 60%);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: 0.5s;
-        }
-
-        .member-card:hover {
-            transform: translateY(-12px) scale(1.02);
-            background: rgba(255, 255, 255, 0.12);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-        }
-
-        .member-card:hover::after { opacity: 1; }
-
-        .card-header {
-            padding: 30px;
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            background: transparent;
-        }
-
-        .card-header .avatar {
-            width: 90px; 
-            height: 90px;
-            border-radius: 50%;
-            border: 3px solid var(--gold);
-            object-fit: cover;
-            transition: 0.6s;
-            box-shadow: 0 0 15px rgba(0,0,0,0.4);
-            flex-shrink: 0;
-            margin-right: 0;
-        }
-
-        .member-card:hover .avatar {
-            transform: rotate(8deg) scale(1.1);
-            box-shadow: 0 0 30px var(--gold-glow);
-            border-color: white;
-        }
-
-        .card-header .info { display: flex; flex-direction: column; }
-        
-        .card-header .name { 
-            font-weight: 900; 
-            color: var(--gold); 
-            font-size: 1.5rem; 
-            margin-bottom: 6px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
-        }
-
-        .card-header .short-task { 
-            font-size: 14px; 
-            color: #eee; 
-            background: rgba(240, 198, 129, 0.15);
-            padding: 4px 12px;
-            border-radius: 20px;
-            display: inline-block;
-            font-weight: bold;
-            font-style: normal;
-        }
-
-        .card-content {
-            max-height: 0;
-            opacity: 0;
-            padding: 0 30px;
-            transition: all 0.5s ease-in-out;
-            overflow: hidden;
-            border: none;
-        }
-
-        .member-card.open .card-content {
-            max-height: 300px;
-            padding: 25px 30px 30px 30px;
-            opacity: 1;
-            border-top: 1px solid var(--glass-border);
-        }
-
-        .card-content ul { padding: 0; margin: 0; list-style: none; }
-        .card-content li { 
-            font-size: 15px; 
-            margin-bottom: 12px; 
-            display: flex; 
-            align-items: center; 
-            gap: 12px;
-            color: #ddd;
-        }
-
-        .card-content li i { color: var(--gold); font-size: 14px; width: 20px; text-align: center; }
-
-        body.dark-mode #thanh-vien .member-card { background: var(--glass); border: 1px solid var(--glass-border); }
-        body.dark-mode #thanh-vien .member-card .name { color: var(--gold); }
-
-        /* ==================================================================
-           6. CSS GIAO DIỆN BÌNH LUẬN TRÊN WEB
-           ================================================================== */
-        .comment-form-box { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px dashed #ccc; }
-        .comment-form-box input, .comment-form-box textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 1.1em; font-family: inherit; transition: 0.3s; }
-        .comment-form-box input:focus, .comment-form-box textarea:focus { border-color: #b30000; outline: none; }
-        .comment-form-box button { background: #b30000; color: #fff; border: none; padding: 12px 25px; font-size: 1.2em; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-family: 'Oswald', sans-serif;}
-        .comment-form-box button:hover { background: #fc0; color: #b30000; }
-
-        .comment-item { background: #fff; border: 2px solid #b30000; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
-        .comment-header-box { display: flex; align-items: flex-start; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; }
-        .comment-avatar { width: 50px; height: 50px; background: #b30000; color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 1.2em; margin-right: 15px; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.2); cursor: pointer;}
-        .comment-info-box { display: flex; flex-direction: column; }
-        .comment-name { color: #b30000; font-weight: bold; font-size: 1.2em; }
-        .comment-date { color: #888; font-size: 0.9em; font-style: italic; margin-top: 5px;}
-        .comment-content-box { font-size: 1.15em; color: #333; line-height: 1.6; }
-
-        /* ==================================================================
-           7. FOOTER VÕ ĐỨC HÙNG (NỀN ĐỎ)
-           ================================================================== */
-        footer { 
-            background: #b30000; color: #fff; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; height: 50vh; 
-            text-align: center; padding: 20px; z-index: 10; border-top: 5px solid #fc0; 
-        }
-        footer h2 { font-family: 'Montserrat', sans-serif; color: #fc0; font-size: 2.5em; margin-bottom: 10px; text-transform: uppercase;}
-        footer p { font-size: 1.4em; margin-bottom: 5px; color: #fff; }
-        footer .author { font-family: 'Oswald', sans-serif; font-size: 4em; font-weight: bold; color: #fc0; margin: 15px 0; letter-spacing: 2px;}
-        footer .contact-box { background: rgba(0,0,0,0.2); padding: 15px 30px; border-radius: 10px; border: 2px dashed #fc0; font-size: 1.3em; line-height: 1.8;}
-
-        /* CSS TỐI */
-        body.dark-mode .wrapper { background-color: rgba(18,18,18,0.9); }
-        body.dark-mode .article-block, body.dark-mode .meaning-card, body.dark-mode .comment-item, body.dark-mode .books-list li { background: #222; color: #eee; border-color: #f44; }
-        body.dark-mode section h2.main-title { color: #f44; background: #222; border-color: #f44; text-shadow: none; }
-        body.dark-mode .article-block h3, body.dark-mode .meaning-card h3, body.dark-mode .comment-name { color: #ff6666; }
-        body.dark-mode .comment-content-box { color: #eee; }
-        body.dark-mode .comment-header-box { border-color: #444; }
-        body.dark-mode .modal-content { background: #222; }
-        body.dark-mode .modal-content input, body.dark-mode .modal-content textarea { background: #333; color: #fff; border-color: #555; }
-        body.dark-mode .comment-form-box input, body.dark-mode .comment-form-box textarea { background: #333; color: #fff; border-color: #555; }
-
-        /* ==================================================================
-           8. NÚT LƠ LỬNG VÀ POPUP GÓP Ý EMAIL
-           ================================================================== */
-        #ghost-trigger { position: fixed; bottom: 30px; right: 30px; width: 80px; height: 80px; z-index: 9999; cursor: pointer; transition: 0.3s; background: #fff; border-radius: 50%; border: 3px solid #b30000; box-shadow: 0 4px 15px rgba(0,0,0,0.4); display: flex; justify-content: center; align-items: center; overflow: hidden; }
-        #ghost-trigger:hover { transform: scale(1.1); }
-        .bot-logo { width: 100%; height: 100%; object-fit: cover; }
-
-        #feedback-btn { position: fixed; bottom: 30px; left: 30px; background: #b30000; color: #fc0; padding: 15px 25px; border-radius: 30px; font-size: 1.2em; font-weight: bold; cursor: pointer; z-index: 9999; box-shadow: 0 4px 15px rgba(0,0,0,0.4); border: 2px solid #fc0; transition: 0.3s; display: flex; align-items: center; gap: 10px; font-family: 'Oswald', sans-serif;}
-        #feedback-btn:hover { background: #fc0; color: #b30000; transform: scale(1.05); border-color: #b30000; }
-
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 10000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
-        .modal-overlay.active { display: flex; opacity: 1; }
-        .modal-content { background: #fff; width: 90%; max-width: 500px; padding: 30px; border-radius: 15px; border: 4px solid #b30000; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .modal-content h3 { color: #b30000; text-align: center; font-size: 1.8em; margin-bottom: 20px; border-bottom: 2px dashed #fc0; padding-bottom: 10px; }
-        .modal-content input, .modal-content textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 1.1em; font-family: inherit;}
-        .modal-content button { width: 100%; background: #b30000; color: #fc0; font-weight: bold; font-size: 1.2em; padding: 15px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-family: 'Oswald', sans-serif;}
-        .modal-content button:hover { background: #fc0; color: #b30000; }
-        .close-modal { position: absolute; top: 10px; right: 15px; font-size: 2em; color: #b30000; cursor: pointer; font-weight: bold; }
-        .close-modal:hover { color: #f00; }
-
-        /* ==================================================================
-           9. PRELOADER VÀ VIDEO CHẠM ĐÁY
-           ================================================================== */
-        #preloader { position: fixed; inset: 0; background: #fff; z-index: 999999; display: flex; justify-content: center; align-items: center; transition: 1s; }
-        .animation-window { position: relative; width: 600px; height: 400px; border: 5px solid #000; border-radius: 10px; background: #fff; overflow: hidden; display: flex; align-items: center; }
-        .gate-area { position: absolute; left: 20%; height: 80%; display: flex; align-items: center; z-index: 5; }
-        .pillar { width: 60px; height: 100%; background: linear-gradient(to right, #e6dac3, #d7c9b0); border: 3px solid #333; position: relative; z-index: 20; }
-        .gate-door { display: none; width: 280px; height: 95%; border: 8px solid #333; border-right: none; background-image: repeating-linear-gradient(to right, #333 0px, #333 10px, transparent 10px, transparent 40px); transform-origin: left bottom; z-index: 10; opacity: 0; transition: 0.8s cubic-bezier(0.2,0,0.2,1); }
-        .gate-door.collapsed { transform: translateX(-350px) rotateZ(-15deg); opacity: 0.7; }
-        .tank-animation { position: absolute; top: 50%; transform: translateY(-50%); width: 600px; right: -700px; z-index: 15; animation: driveStraight 4.5s linear forwards; }
-        @keyframes driveStraight { to { right: 100%; } }
-
-        .video-overlay { position: fixed; inset: 0; background: #000; z-index: 9998; opacity: 0; pointer-events: none; transition: 1s; display: flex; justify-content: center; align-items: center; }
-        .video-overlay.active { opacity: 1; pointer-events: auto; }
-        #finale-video { width: 100%; height: 100%; object-fit: contain; }
-        #close-video-btn { position: absolute; top: 25px; right: 35px; z-index: 9999; background: rgba(0,0,0,0.6); color: #fff; border: 2px solid #fff; padding: 10px 25px; font-size: 18px; font-weight: bold; border-radius: 30px; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
-        #close-video-btn:hover { background: #f00; border-color: #f00; }
-
-        @media (max-width: 900px) { .task-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) {
-            .document-grid { grid-template-columns: 1fr; }
-            .meaning-card { flex-direction: column; }
-            .meaning-card img { width: 100%; height: 250px; }
-            .meaning-card .meaning-text { width: 100%; padding: 25px; }
-            .task-grid { grid-template-columns: 1fr; }
-            .card-header .avatar { width: 75px; height: 75px; }
-            .member-card.open .card-content { padding-left: 30px; }
-            .card-header { gap: 20px; }
-            footer h2 { font-size: 1.8em; }
-            footer .author { font-size: 2.8em; }
-            #feedback-btn { font-size: 1em; padding: 10px 15px; bottom: 20px; left: 20px; }
-            #ghost-trigger { width: 60px; height: 60px; bottom: 20px; right: 20px;}
-        }
-    </style>
+    <title>8/3 - Tôn Vinh Phụ Nữ | Nhóm 6 12A1</title>
+    <link rel="stylesheet" href="style1.css">
 </head>
-
 <body>
 
-    <div id="preloader">
-        <div class="animation-window">
-            <div class="gate-area">
-                <div class="pillar"></div>
-                <div class="gate-door"></div>
-            </div>
-            <img src="tank.png" alt="Xe tăng húc cổng" class="tank-animation">
+    <header class="header">
+        <div class="header-bg"></div>
+        <div class="header-content">
+            <h1>8/3 - TÔN VINH PHỤ NỮ</h1>
+            <div class="divider"></div>
+            <marquee class="slogan">“RẠNG RỠ NHƯ HOA, KIÊN CƯỜNG NHƯ THÉP”</marquee>
         </div>
+    </header>
+
+    <div id="menu">
+        <a class="nav-item" href="#">Trang chủ</a>
+        <a class="nav-item" href="#introduce">Giới thiệu</a>
+        <a class="nav-item" href="#history">Lịch sử</a>
+        <a class="nav-item" href="#meaning">Ý nghĩa</a>
+        <a class="nav-item" href="#wishes">Lời chúc</a>
+        <a class="nav-item" href="#expand">Thư viện ảnh</a>
     </div>
 
-    <div class="wrapper">
-        <header class="banner-half">
-            <div class="tank-bg"><img src="tank3.png" alt="Xe tăng"></div>
-            <div class="flag-part"></div>
-            <div class="big-date">30/4</div>
-            <div class="brand">
-                <img src="logo1.png" alt="Logo" class="logo">
-                <h1 class="brand-name">TOÀN THẮNG</h1>
-            </div>
-            <div class="slogan">
-                <span class="txt t1">Dưới</span><span class="txt t2">xe</span><span class="txt t3">chân</span><span class="txt t4">là</span>
-                <span class="txt t5">tăng</span><span class="txt t6">quá</span><span class="txt t7">khứ,</span><span class="txt t8">trước</span>
-                <span class="txt t9">mũi</span><span class="txt t10">súng</span><span class="txt t11">là</span><span class="txt t12">hoà</span><span class="txt t13">bình"</span>
-            </div>
-        </header>
-
-        <nav class="red-nav">
-            <ul class="main-menu">
-                <li class="has-submenu main-menu-btn"><a href="#">☰</a>
-                    <ul class="submenu">
-                        <li><a href="#">Search 🔍</a></li>
-                        <li><a href="#" onclick="toggleTheme(); return false;" id="mode-text">☀️ Sáng/Tối</a></li>
-                        <li><a href="#">🏠 Trang chủ</a></li>
-                    </ul>
-                </li>
-                <li class="has-submenu"><a href="#hoan-canh">Nội dung</a>
-                    <ul class="submenu">
-                        <li><a href="#hoan-canh">Hoàn cảnh</a></li>
-                        <li><a href="#dien-bien">Diễn biến</a></li>
-                        <li><a href="#ket-qua-y-nghia">Kết quả & Ý nghĩa</a></li>
-                    </ul>
-                </li>
-                <li class="has-submenu"><a href="#tu-lieu">Tư liệu</a>
-                    <ul class="submenu">
-                        <li><a href="#van-ban-tu-lieu">Văn bản & Sách</a></li>
-                        <li><a href="#hinh-anh-hien-vat">Hình ảnh</a></li>
-                        <li><a href="#video-tu-lieu">Video</a></li>
-                    </ul>
-                </li>
-                <li class="has-submenu"><a href="#bai-hoc">Bài học</a>
-                    <ul class="submenu">
-                        <li><a href="#bai-hoc">Sức mạnh dân tộc</a></li>
-                        <li><a href="#trach-nhiem">Trách nhiệm tuổi trẻ</a></li>
-                    </ul>
-                </li>
-                <li><a href="#thanh-vien">Thành viên</a></li>
-                <li><a href="#khu-vuc-binh-luan">Bình luận</a></li>
+    <main class="main-content">
+        
+    
+        <div class="article" id="introduce">
+            <h2>Giới thiệu ngày 8/3</h2>
+            <p>Ngày 8/3 hay còn được biết đến với tên gọi khác "Ngày Quốc tế Phụ nữ" đây là dịp để tôn vinh thể hiện sự yêu thương và trân trọng phái đẹp, để vinh danh những người phụ nữ trên toàn thế giới. Tại Việt Nam, ngày 8/3 còn được nhớ đến là ngày kỉ niệm cuộc khởi nghĩa của Hai Bà Trưng khi giành chiến thắng trong lần đầu tiên đánh đuổi giặc ngoại xâm phương Bắc.</p>
+            
+            <p>Quốc tế phụ nữ 8/3 bắt nguồn từ phong trào nữ công nhân Mỹ vào cuối thế kỉ XIX do các nữ công nhân ngành dệt ở New York đấu tranh vì điều kiện làm việc khó khăn. Hai năm sau, các nữ công nhân ở Hoa Kỳ thành lập công đoàn đầu tiên và đạt được quyền lợi. Ngày 8/3/1910, Hội nghị phụ nữ Quốc tế đòi quyền bầu cử cho phụ nữ. Clara Zetkin, Chủ tịch Hội nghị, đề xuất ngày Quốc tế phụ nữ để tưởng nhớ những người phụ nữ đấu tranh. Ngày Quốc tế Phụ nữ được kỷ niệm toàn cầu với nhiều hoạt động. Ở Việt Nam, ngày 8/3 là ngày lễ quan trọng, được tổ chức trọng đại với nhiều quà tặng và lời chúc tốt đẹp.</p>
+            
+            <p>Người khởi xướng Ngày Quốc tế Phụ nữ 8/3 là bà Clara Zetkin (1857–1933), một nhà hoạt động nữ quyền và lý luận Mác-xít người Đức. Tại Hội nghị Phụ nữ quốc tế do Quốc tế thứ 2 tổ chức vào tháng 3/1910 tại Copenhagen (Đan Mạch), bà đã đề xuất chọn một ngày cụ thể hàng năm để tôn vinh và đấu tranh cho quyền bình đẳng của phụ nữ.</p>
+            
+            <ul>
+                <li><strong>Bối cảnh:</strong> Đề xuất được 100 đại biểu phụ nữ từ 17 quốc gia ủng hộ nhằm đòi quyền bầu cử, quyền lao động và bình đẳng cho phụ nữ.</li>
+                <li><strong>Ý nghĩa ban đầu:</strong> Ngày này ra đời nhằm nhớ ơn những phụ nữ đấu tranh trên toàn thế giới và thúc đẩy bình đẳng giới.</li>
+                <li><strong>Dấu mốc:</strong> Sau đề xuất của bà Clara Zetkin, ngày 8/3 đã trở thành ngày Quốc tế Phụ nữ, được Liên Hợp Quốc chính thức kỷ niệm từ năm 1975.</li>
             </ul>
-        </nav>
+        </div>
 
-        <main class="content-section">
-            <div class="container">
-                
-                <section id="hoan-canh">
-                    <h2 class="main-title">1. Bối cảnh lịch sử</h2>
-                    <div class="article-block">
-                        <figure class="img-box">
-                            <img src="cau.png" alt="Cầu Hiền Lương">
-                            <figcaption>Cầu Hiền Lương - Giới tuyến quân sự tạm thời chia cắt hai miền Nam - Bắc.</figcaption>
-                        </figure>
-                        <p class="clamp-text">Sau khi Hiệp định Genève (1954) được ký kết, Việt Nam tạm thời bị chia cắt thành hai miền. Tuy nhiên, cuộc chiến đã kéo dài thêm hai thập kỷ do sự can thiệp sâu sắc của các cường quốc trong bối cảnh Chiến tranh Lạnh.</p>
-                        
-                        <figure class="img-box">
-                            <img src="pari.webp" alt="Lễ ký Hiệp định Paris">
-                            <figcaption>Đoàn Việt Nam Dân chủ Cộng hòa tại Lễ ký Hiệp định Paris, ngày 27/1/1973.</figcaption>
-                        </figure>
-                        <p class="clamp-text"><strong>*Hiệp định Paris (1973):</strong> Đây là tiền đề quan trọng nhất. Sau thất bại tại "Điện Biên Phủ trên không" cuối năm 1972, Mỹ buộc phải ký Hiệp định Paris, rút toàn bộ quân đội và nhân viên quân sự ra khỏi miền Nam Việt Nam.</p>
-                        
-                        <figure class="img-box">
-                            <img src="mĩ rút quân.jpeg" alt="Lính Mỹ rút quân">
-                            <figcaption>Lính Mỹ rút quân khỏi miền Nam Việt Nam.</figcaption>
-                        </figure>
-                        <p class="clamp-text"><strong>*Thế trận thay đổi:</strong> Sau khi quân Mỹ rút đi, cán cân lực lượng trên chiến trường thay đổi có lợi cho chính quyền miền Bắc (Việt Nam Dân chủ Cộng hòa) và Mặt trận Dân tộc Giải phóng miền Nam Việt Nam. Trong khi đó, chính quyền Sài Gòn rơi vào tình trạng khủng hoảng kinh tế và suy giảm viện trợ từ Mỹ.</p>
-                    </div>
-                </section>
+        <div class="article" id="meaning">
+            <h2>Ý nghĩa ngày 8/3</h2>
+            <h3>🌸Ngày kỉ niệm với nhiều hoạt động đặc biệt dành cho phái nữ</h3>
+            <p>Vào ngày 8/3, nam giới trên khắp thế giới thường tổ chức tiệc, tặng hoa và quà để chúc mừng phụ nữ. Tại nhiều quốc gia, đây cũng là dịp diễn ra các cuộc diễu hành nhằm đòi quyền bình đẳng cho phụ nữ. Ở Việt Nam, học sinh thường tặng cô giáo những bông hoa và lời chúc tốt đẹp để thể hiện lòng biết ơn.</p>
+            
+            <h3>🌸Thể hiện sự bình đẳng giữa nam và nữ</h3>
+            <p>Ngày Quốc tế Phụ nữ tôn vinh phụ nữ và khẳng định sự công bằng giữa nam và nữ. Trong xã hội hiện đại, quyền lợi của phụ nữ ngày càng được bảo vệ và phụ nữ cũng đóng vai trò quan trọng trong nhiều lĩnh vực khác nhau của đời sống.</p>
+            
+            <h3>🌸Tri ân công lao to lớn của người phụ nữ</h3>
+            <p>Phụ nữ luôn có vai trò quan trọng trong sự phát triển của gia đình và đất nước. Ngày 8/3 là dịp để xã hội bày tỏ lòng tri ân đối với những người mẹ Việt Nam anh hùng, những người phụ nữ mạnh mẽ đã hy sinh và cống hiến cho đất nước.</p>
 
-                <section id="dien-bien">
-                    <h2 class="main-title">2. Diễn biến</h2>
-                    <div class="article-block">
-                        <h3>Những ngày cuối cùng</h3>
-                        <figure class="img-box">
-                            <img src="ngay27.jpeg" alt="Tình hình hỗn loạn tại Sài Gòn">
-                            <figcaption>Tình hình hỗn loạn tại Sài Gòn những ngày cuối tháng 4.</figcaption>
-                        </figure>
-                        <p class="clamp-text">Ngày 27 tháng 4, pháo phản lực của Quân Giải phóng lần đầu tiên kể từ sau Hiệp định Paris 1973 bắn trúng các khu vực trọng yếu tại trung tâm Sài Gòn, bao gồm Chợ Lớn và khu vực quanh Chợ Bến Thành, gây thiệt hại đáng kể về nhà cửa và thương vong cho thường dân. Ngay sau vụ pháo kích, Đại sứ Graham Martin xuất hiện trên truyền hình quốc gia Sài Gòn tuyên bố: "Với tư cách là đại sứ Hoa Kỳ, tôi sẽ không bỏ trốn trong đêm tối". Tuy nhiên, vụ việc đã tác động trực tiếp đến kế hoạch sơ tán bằng đường hàng không: các chuyến bay sử dụng máy bay vận tải C-141 bị đình chỉ do lo ngại an toàn, buộc phía Hoa Kỳ phải chuyển sang sử dụng máy bay C-130 – loại có khả năng cơ động cao hơn nhưng sức chở thấp hơn. Trong điều kiện khẩn cấp, mỗi chiếc C-130 cất cánh từ Tân Sơn Nhứt chở tới khoảng 240 người, vượt xa công suất tiêu chuẩn.</p>
-                        
-                        <figure class="img-box">
-                            <img src="ngay29.jpeg" alt="Người dân Sài Gòn trèo tường đại sứ quán">
-                        </figure>
-                        <p class="clamp-text">Từ ngày 27 đến 29 tháng 4, tình hình trong thành phố trở nên hỗn loạn nghiêm trọng. Tiếng súng nhỏ, pháo phòng không và súng cối vang lên tại nhiều khu vực. Các cửa hàng trên các tuyến phố chính như đường Tự Do (nay là Đồng Khởi) đồng loạt đóng cửa. Nhiều người dân tranh thủ tràn vào các siêu thị Mỹ bị bỏ lại cùng các cửa hàng quân nhu PX để hôi của, lấy đi các mặt hàng tiêu dùng, thiết bị điện tử, rượu bia và thực phẩm. Những vật phẩm này được vận chuyển bằng xe kéo ra các khu chợ dã chiến gần Thảo Cầm Viên Sài Gòn để bán lại.
-                        Bất chấp lệnh giới nghiêm còn hiệu lực, người dân vẫn tụ tập đông đảo trên đường phố trong tình trạng vô tổ chức. Một số binh sĩ thuộc Sư đoàn 18 Bộ binh QLVNCH, sau khi bị tan rã tại mặt trận, đã quay về thành phố trong trạng thái hoảng loạn, có trường hợp sử dụng vũ khí để thị uy hoặc cướp giật nhằm vào người nước ngoài. Đồng thời, xuất hiện các báo cáo cho thấy lực lượng Quân Giải phóng đã tiến hành thâm nhập vào một số khu vực nội đô, gây ra tình trạng kiểm soát chồng lấn. Có thông tin ghi nhận máy bay trực thăng của Hoa Kỳ bị bắn rơi khi bay qua các khu vực có hỏa lực đối phương.</p>
+            <h3>🌸Thu hẹp và xóa bỏ sự bất công đối với phụ nữ</h3>
+            <p>Ở một số nơi trên thế giới, phụ nữ vẫn phải đối mặt với nhiều bất công và hạn chế về quyền tự do. Ngày 8/3 góp phần nâng cao nhận thức của xã hội về việc bảo vệ quyền lợi của phụ nữ và xóa bỏ những định kiến giới.</p>
+            
+            <h3>🌸Phản ánh sự phát triển của xã hội</h3>
+            <p>Bình đẳng giới là một yếu tố quan trọng để xây dựng một xã hội dân chủ và văn minh. Ngày Quốc tế Phụ nữ phản ánh sự tiến bộ của xã hội và nhấn mạnh tầm quan trọng của việc tôn trọng, đối xử công bằng với phụ nữ.</p>
+        </div>
 
-                        <h3>Chiến dịch Gió lốc</h3>
-                        <figure class="img-box">
-                            <img src="38.jpg" alt="Sân bay Tân Sơn Nhứt bị oanh kích">
-                            <figcaption>Sân bay Tân Sơn Nhứt bị oanh kích dữ dội.</figcaption>
-                        </figure>
-                        <p class="clamp-text">Từ chiều tối ngày 28 đến rạng sáng ngày 29 tháng 4 năm 1975, sân bay Tân Sơn Nhứt bị oanh kích dữ dội bởi máy bay cường kích A-37 và pháo hạng nặng của quân Giải phóng. Nhiều máy bay trong căn cứ bị phá hủy dưới làn đạn pháo. Đợt pháo kích kéo dài đến bình minh đã khiến Thiếu tướng Homer D. Smith, Tùy viên Quân sự cuối cùng của Hoa Kỳ tại Việt Nam, phải thông báo với Đại sứ Martin rằng đường băng đã hư hại nặng nề, không thể tiếp tục sử dụng máy bay cố định cánh cho chiến dịch di tản. Thay vào đó, cần chuyển sang phương án di tản toàn bộ bằng trực thăng.
-                        Ban đầu, Đại sứ Martin vẫn cố giữ lời hứa đảm bảo mọi nhân viên liên quan tại Đại sứ quán Hoa Kỳ sẽ được đưa ra ngoài, nên ông do dự không muốn chấp thuận phương án thay thế. Tuy nhiên, sau khi đích thân đến Tân Sơn Nhứt và tận mắt chứng kiến mức độ thiệt hại nghiêm trọng, ông nhận ra lời cam kết đó không còn khả năng thực hiện. Cùng lúc, các báo cáo từ ngoại ô thành phố cho biết quân Giải phóng đang áp sát thành phố từ nhiều hướng.
-                        Vào 10 giờ 48 phút sáng, Đại sứ Martin liên hệ với Ngoại trưởng Henry Kissinger, thông báo ông chấp thuận khởi động Chiến dịch Gió lốc. Washington đáp ứng chỉ sau 3 phút, chính thức ban hành lệnh thực hiện. Tín hiệu bắt đầu chiến dịch được phát sóng trên đài phát thanh của quân đội Hoa Kỳ tại Sài Gòn, gồm hai phần: một bản tin thời tiết giả định với câu nói "Nhiệt độ ở Sài Gòn hiện là 112 độ F (tương đương 44 độ C) và tiếp tục tăng", tiếp theo là bản thu âm bài "White Christmas" do Bing Crosby trình bày. Đây là tín hiệu mật thông báo cho tất cả công dân Hoa Kỳ đang ở Việt Nam rằng chiến dịch sơ tán đã chính thức bắt đầu.</p>
-                        
-                        <figure class="img-box">
-                            <img src="2.jpg" alt="Đẩy trực thăng xuống biển">
-                        </figure>
-                        <p class="clamp-text">Nhân viên tác chiến trên boong tàu sân bay USS Midway hối hả đẩy các trực thăng UH-1 của Không lực VNCH xuống biển để giải phóng chỗ cho các trực thăng khác đang chờ hạ cánh. Khi ca khúc "White Christmas" vang lên trên làn sóng phát thanh, cuộc đại di tản bằng trực thăng của Mỹ chính thức khởi động. Tại vùng biển phía nam Việt Nam, Hạm đội 7 của Hải quân Hoa Kỳ triển khai hàng chục tàu chiến áp sát vùng ven bờ để làm điểm tiếp nhận. Trong nội thành Sài Gòn, hàng loạt xe buýt quân sự được điều động, liên tục đưa người từ các điểm tập trung đến khu vực đón trực thăng. Trên bầu trời thành phố, máy bay trực thăng CH-53 và CH-46 bay rợp trời, liên tục thực hiện các chuyến vận chuyển công dân Mỹ cùng những người Việt Nam có liên hệ, ra các tàu ngoài khơi.</p>
-                        
-                        <figure class="img-box">
-                            <img src="3.jpg" alt="Người dân Việt Nam lên trực thăng CH-53">
-                            <figcaption>Người dân Việt Nam lên một chiếc trực thăng CH-53 tại khu vực hạ cánh số 39 trong khuôn viên Văn phòng Tùy viên Quân sự Mỹ ở Tân Sơn Nhứt.</figcaption>
-                        </figure>
-                        <p class="clamp-text">Khuôn viên Văn phòng Tùy viên Quốc phòng Hoa Kỳ (DAO) nằm ở phía đông nam sân bay Tân Sơn Nhứt là điểm sơ tán chính trong Chiến dịch Gió lốc. Phần lớn các xe buýt đưa người sơ tán đều có điểm đến cuối cùng tại đây. Những chiếc xe buýt đầu tiên đã đến khu vực DAO vào buổi trưa ngày 29 tháng 4, và ngay trong chiều hôm đó, trực thăng CH-53 bắt đầu tiếp cận sân bay từ ngoài khơi. Đến chiều tối, 395 công dân Mỹ và hơn 4.000 người Việt Nam đã được đưa ra khỏi Sài Gòn từ khu vực DAO.</p>
-                        
-                        <figure class="img-box">
-                            <img src="4.jpg" alt="Lính Thủy quân lục chiến Hoa Kỳ cảnh giới">
-                            <figcaption>Một lính Thủy quân Lục chiến Hoa Kỳ cầm súng M16A1 làm nhiệm vụ cảnh giới khi trực thăng hạ cánh tại căn cứ không quân Tân Sơn Nhứt.</figcaption>
-                        </figure>
-                        <p class="clamp-text">Lúc 23 giờ đêm, toàn bộ lính Thủy quân Lục chiến Hoa Kỳ làm nhiệm vụ bảo vệ sân bay Tân Sơn Nhứt được lệnh rút về tuyến phòng thủ cuối cùng, đồng thời kích nổ chất nổ phá hủy trụ sở chính DAO, bao gồm cả trang thiết bị, hồ sơ, tài liệu và tiền mặt của Mỹ. Cùng thời điểm, hãng hàng không Air America – một đơn vị ngụy trang của CIA – cũng triển khai trực thăng UH-1 tham gia vào chiến dịch, hỗ trợ vận chuyển hơn 1.000 người tị nạn trong ngày 29.
-                        Mặc dù ban đầu, Đại sứ quán Hoa Kỳ tại Sài Gòn không được xác định là điểm sơ tán chính, mà chỉ đóng vai trò trạm trung chuyển cho nhân viên đại sứ quán và các chuyến xe nối các điểm tập kết đến sân bay, nhưng do nằm ngay trung tâm thành phố, nơi này nhanh chóng trở thành tâm điểm chú ý. Ngay từ sáng sớm, khoảng 10.000 người dân đã tụ tập quanh khuôn viên đại sứ quán. Dù phần lớn là người tò mò muốn biết tình hình ở đại sứ quán, nhưng cũng không ít người tìm cách xâm nhập khuôn viên, hy vọng được xét diện người tị nạn để có cơ hội rời khỏi Việt Nam. Nhiều người leo lên tường rào, tạo ra tình cảnh hỗn loạn. Cảnh sát Sài Gòn chỉ chịu phối hợp giữ gìn trật tự sau khi được hứa cho đi theo đoàn sơ tán. Ngoài ra, thời tiết mùa mưa đến sớm cũng ảnh hưởng đến chiến dịch. Trời nhiều mây, sương mù, khói lửa từ các đám cháy trong thành phố gây giảm tầm nhìn, ảnh hưởng nghiêm trọng đến đường bay của trực thăng.
-                        Lúc 3 giờ 45 phút sáng ngày 30 tháng 4, Đại sứ Martin nhận được chỉ thị từ Kissinger và Ford yêu cầu chấm dứt việc di tản người Việt Nam, chỉ ưu tiên người Mỹ. Dù ban đầu cố trì hoãn để tiếp tục sơ tán thêm thường dân, lệnh này vẫn được chính thức thực thi sau 4 giờ sáng, do lo ngại quân Giải phóng sắp tiến vào thành phố và Washington mong muốn tuyên bố kết thúc chiến dịch sớm. Vào khoảng 4 giờ 55 phút sáng, Đại sứ Graham Martin lên trực thăng CH-46 của Phi đội trực thăng 165 Thủy quân Lục chiến Hoa Kỳ, rời khỏi tòa đại sứ. Chiếc trực thăng cuối cùng cất cánh lúc 7 giờ 53 phút, đưa theo nhóm lính Thủy quân Lục chiến cuối cùng bảo vệ tòa nhà. Tổng kết, từ nóc tòa đại sứ đã sơ tán được 978 công dân Mỹ và hơn 1.000 người Việt Nam. Tuy nhiên, khi chiếc trực thăng cuối rời đi, hàng trăm người Việt vẫn bị bỏ lại trong khuôn viên, và nhiều người khác tụ tập ngoài phố chờ đợi trong tuyệt vọng.
-                        Chiến dịch Gió lốc không vấp phải sự can thiệp quân sự trực tiếp nào từ quân Giải phóng. Dù một số phi công Mỹ nhận được cảnh báo rằng pháo phòng không miền Bắc đang nhắm vào họ nhưng trên thực tế không có chiếc trực thăng nào bị bắn trúng. Theo đánh giá của Bộ Tổng tham mưu Việt Nam Dân chủ Cộng hòa, nếu để Mỹ hoàn tất việc rút lui, họ sẽ giảm khả năng can thiệp vào chiến dịch Hồ Chí Minh, do đó Đại tướng Văn Tiến Dũng nhận lệnh không được tấn công máy bay Mỹ. Dù chiến dịch sơ tán chính thức kết thúc, nhiều người Việt vẫn tiếp tục tự tìm cách thoát khỏi đất nước. Nhiều phi công của Không lực Việt Nam Cộng hòa tự điều khiển trực thăng bay ra tàu chiến Hoa Kỳ ngoài khơi để xin tị nạn. Một trong số đó là cựu Thủ tướng kiêm Tư lệnh Không quân Nguyễn Cao Kỳ. Do số lượng trực thăng quá lớn, nhiều chiếc sau khi hạ cánh phải bị đẩy xuống biển để nhường chỗ cho các máy bay khác đến sau. Ngoài trực thăng, còn có một số máy bay cánh cố định hạ cánh thành công xuống tàu sân bay.</p>
+        <div class="article" id="history">
+            <h2>Lịch sử hình thành</h2>
+            <h3>🌎Phong trào đấu tranh của phụ nữ trên thế giới</h3>
+            <p>
+                - Phong trào đòi quyền bầu cử cho phụ nữ: phụ nữ đấu tranh để được tham gia bầu cử, kết quả là nhiều nước như Mỹ (1920), Anh (1928) công nhận quyền này.<br>
+                - Phong trào #MeToo: phụ nữ lên tiếng tố cáo quấy rối, xâm hại tình dục, làm xã hội chú ý và thay đổi luật, quy định ở nhiều nơi.<br>
+                - Phong trào đòi quyền phá thai ở Argentina: phụ nữ biểu tình nhiều năm, kết quả là phá thai được hợp pháp hóa năm 2020.<br>
+                - Phong trào nữ quyền ở Saudi Arabia: phụ nữ đấu tranh để được lái xe, kết quả là lệnh cấm bị gỡ bỏ năm 2018.
+            </p>
 
-                        <h3>Quân Giải phóng tiến vào Sài Gòn</h3>
-                        <figure class="img-box">
-                            <img src="57.jpg" alt="Quân Giải phóng tiến vào Sài Gòn">
-                        </figure>
-                        <p class="clamp-text">Vào rạng sáng ngày 30 tháng 4, Đại tướng Văn Tiến Dũng nhận được lệnh tấn công từ Bộ Chính trị Ban Chấp hành Trung ương Đảng Lao động Việt Nam. Ông sau đó ra chỉ thị cho các chỉ huy mặt trận tiến thẳng vào các cơ sở trọng yếu và các điểm chiến lược trong nội đô. Đơn vị đầu tiên của quân Giải phóng tiến vào thành phố là Sư đoàn 324. Vào thời điểm đó, chính quyền Sài Gòn không đưa ra lời kêu gọi nào đến người dân về việc hiến máu, lương thực hay hỗ trợ khác.</p>
-                        
-                        <figure class="img-box">
-                            <img src="5.jpg" alt="Cầu Tân Cảng">
-                        </figure>
-                        <p class="clamp-text">Lúc 8:00 sáng, ba giờ sau khi chiếc trực thăng cuối cùng rời nóc Đại sứ quán Hoa Kỳ, Thượng tướng Trần Văn Trà ra lệnh cho các đơn vị QGPMNVN tiến vào Sài Gòn từ năm hướng. Lúc bấy giờ, lực lượng đặc công quân Giải phóng tấn công cầu Tân Cảng nhưng bị lực lượng Dù của QLVNCH đẩy lui. Lúc 09:00, đoàn xe tăng QGPMNVN tiếp cận cầu và bị pháo kích bởi xe tăng QLVNCH, một xe T-54 đi đầu bị bắn cháy khiến tiểu đoàn trưởng Ngô Văn Nhỡ tử trận.
-                        Lực lượng Đặc nhiệm 3, Liên đoàn Biệt Cách Dù 81 của QLVNCH dưới quyền Thiếu tá Phạm Châu Tài phòng thủ sân bay Tân Sơn Nhứt, được tăng cường bởi tàn quân đơn vị Lôi Hổ. Lúc 07:15 sáng, Trung đoàn 24 quân Giải Phóng tiếp cận ngã tư Bảy Hiền, cách cổng chính sân bay khoảng 1,5 km. Xe tăng T-54 dẫn đầu trúng đạn súng không giật M67, chiếc kế tiếp bị một xe tăng M48 bắn cháy. Bất chấp tổn thất ban đầu, bộ binh QGPMNVN tiếp tục áp sát theo đội hình từng tổ nhỏ, tiến hành cận chiến quyết liệt với lực lượng phòng thủ trong từng ngôi nhà dọc trục giao thông. Trận đánh diễn ra ác liệt, buộc các đơn vị QLVNCH phải co cụm, rút lui về khu vực sân bay lúc 08:45.
-                        Ngay sau đó, QGPMNVN điều ba xe tăng cùng một tiểu đoàn bộ binh tổ chức đợt xung phong trực diện vào cổng chính sân bay. Tuy nhiên, hỏa lực chống tăng dày đặc cùng các ổ súng máy của QLVNCH đã lập tức khai hỏa, tiêu diệt toàn bộ đội hình xung kích. Cả ba xe tăng bị bắn cháy, ít nhất 20 binh sĩ QGPMNVN nằm lại trận địa. QGPMNVN cố gắng triển khai một khẩu pháo cao xạ 52-K 85 mm để yểm trợ, nhưng bị bắn hỏng trước khi kịp khai hỏa.</p>
+            <h3>⭐️Tại Việt Nam</h3>
+            <p>
+                - Phụ nữ tham gia cách mạng: phụ nữ tham gia kháng chiến chống Pháp, Mỹ, góp phần giành độc lập dân tộc.<br>
+                - Quyền bầu cử của phụ nữ (1946): Hiến pháp 1946 công nhận phụ nữ có quyền bầu cử và ứng cử như nam giới.<br>
+                - Hội Liên hiệp Phụ nữ Việt Nam: bảo vệ quyền lợi phụ nữ, vận động phụ nữ học tập, lao động, tham gia xã hội.<br>
+                - Bình đẳng trong giáo dục: phụ nữ được đi học, học đại học, nghiên cứu khoa học như nam giới.<br>
+                - Phụ nữ tham gia lãnh đạo: ngày càng nhiều phụ nữ giữ vị trí lãnh đạo trong Nhà nước và xã hội.<br>
+                - Luật Bình đẳng giới (2006): bảo đảm quyền bình đẳng giữa nam và nữ trong lao động, chính trị, gia đình.<br>
+                - Chống bạo lực gia đình: pháp luật bảo vệ phụ nữ trước bạo lực, xâm hại.
+            </p>
 
-                        <figure class="img-box">
-                            <img src="6.jpeg" alt="Sư đoàn 10 tiến công">
-                            <figcaption>Sư đoàn 10 và hai đại đội xe tăng của Trung đoàn thiết giáp 273 tiến công.</figcaption>
-                        </figure>
-                        <p class="clamp-text">Sư đoàn 10 QGPMNVN lệnh điều thêm tám xe tăng và một tiểu đoàn bộ binh tăng viện. Tuy nhiên, khi tiếp cận ngã tư Bảy Hiền, họ bị không kích bởi các máy bay tiêm kích của KLVNCH xuất phát từ căn cứ không quân Bình Thủy, khiến hai xe tăng T-54 bị phá hủy. Sáu xe còn lại đến được cổng chính lúc 10:00, mở đợt tấn công tiếp theo, nhưng hai xe bị bắn cháy tại chỗ và một chiếc khác bị tiêu diệt khi đang cố gắng tạt sườn. Một cánh quân khác gồm Tiểu đoàn xe tăng 2 và Trung đoàn bộ binh 28 tiến đánh Bộ Tổng Tham mưu. Dù nhận tin Tổng thống Dương Văn Minh tuyên bố đầu hàng, một số đơn vị vẫn tiếp tục chống cự lẻ tẻ cho đến khi các lực lượng tiến công kiểm soát hoàn toàn khu vực này.
-                        Lúc 10:24, Tổng thống Dương Văn Minh hạ lệnh đơn phương ngừng chiến và tuyên bố sẽ đầu hàng vô điều kiện. Ông ra lệnh cho toàn bộ QLVNCH ngừng bắn trong trật tự và giữ nguyên vị trí, đồng thời mời Chính phủ Cách mạng Lâm thời tham gia vào một lễ bàn giao chính quyền có trật tự nhằm tránh đổ máu không cần thiết.
-                        Khoảng 10:30, Thiếu tá Phạm Châu Tài tại phi trường Tân Sơn Nhứt sau khi nghe tin về tuyên bố đầu hàng qua phát thanh đã đến Bộ Tổng Tham mưu để xin chỉ thị. Ông gọi cho Dương Văn Minh và được chỉ đạo chuẩn bị đầu hàng. Theo một số nguồn, Thiếu tá Tài có nói với ông Minh rằng: "Nếu xe tăng Việt Cộng tiến vào Dinh Độc Lập, chúng tôi sẽ đến giải cứu ngài." Tuy nhiên, sau khi Dương Văn Minh từ chối, ông đã ra lệnh cho binh sĩ rút khỏi cổng sân bay. Quân Giải phóng tiến vào căn cứ lúc 11:30.
-                        Tại khu vực cầu Tân Cảng, QLVNCH vẫn tiếp tục đấu pháo với xe tăng của QGPMNVN cho đến khi chỉ huy QLVNCH nhận được lệnh đầu hàng qua sóng vô tuyến. Mặc dù cầu đã được gài sẵn khoảng 1.800 kilôgam (1,8 t) thuốc nổ từ trước, lệnh kích hoạt không được thực hiện. Đến 10 giờ 30 phút, đoàn xe tăng của QGPMNVN tiến qua cầu, mở đường tiến vào nội đô Sài Gòn.</p>
-                        
-                        <figure class="img-box">
-                            <img src="39.jpg" alt="Cầu Thị Nghè">
-                            <figcaption>Đánh chiếm Cầu Thị Nghè sáng 30/4.</figcaption>
-                        </figure>
+            <h3>⏱️Các mốc thời gian quan trọng</h3>
+            <p>
+                <strong>• 08/03/1857:</strong> Công nhân nữ ngành dệt ở New York (Mỹ) biểu tình đòi giảm giờ làm, tăng lương → mở đầu cho phong trào đấu tranh của phụ nữ lao động.<br>
+                <strong>• 08/03/1908:</strong> Hơn 15.000 phụ nữ ở Mỹ xuống đường đòi quyền bầu cử, điều kiện làm việc tốt hơn và bình đẳng giới.<br>
+                <strong>• Năm 1910:</strong> Tại Hội nghị Phụ nữ Quốc tế ở Đan Mạch, Clara Zetkin đề nghị chọn 8/3 làm Ngày Quốc tế Phụ nữ.<br>
+                <strong>• 08/03/1911:</strong> Ngày Quốc tế Phụ nữ lần đầu được tổ chức ở nhiều nước châu Âu (Đức, Áo, Đan Mạch…).<br>
+                <strong>• 08/03/1917:</strong> Phụ nữ Nga đình công phản đối chiến tranh → góp phần dẫn đến Cách mạng Tháng Mười Nga.<br>
+                <strong>• Năm 1977:</strong> Liên Hợp Quốc chính thức công nhận 8/3 là Ngày Quốc tế Phụ nữ.
+            </p>
+        </div>
 
-                        <h3>Tuyên bố đầu hàng chính thức</h3>
-                        <figure class="img-box">
-                            <img src="30.jpg" alt="Xe tăng tiến vào Dinh Độc Lập">
-                            <figcaption>Dương Văn Minh bị đưa ra pháp đài</figcaption>
-                        </figure>
-                        <p class="clamp-text">Lữ đoàn xe tăng 203 thuộc Quân đoàn 2 (do Thiếu tướng Nguyễn Hữu An chỉ huy dưới quyền Chỉ huy trưởng Nguyễn Tất Tài và Chính ủy Bùi Văn Tùng, là đơn vị đầu tiên xông vào Dinh Độc Lập vào đầu giờ trưa ngày 30 tháng 4 năm 1975. Xe tăng 843 (loại T-54 của Liên Xô) là chiếc đầu tiên đâm vào cổng phụ bên phải của Dinh. Khoảnh khắc này được quay lại bởi nhà quay phim người Úc Neil Davis. Ngay sau đó, xe tăng 390 (loại Type 59 của Trung Quốc) đã phá cổng chính và tiến vào sân trước.
-                        Trong nhiều năm, tài liệu chính thức của chính phủ Việt Nam và một số nguồn sử học quốc tế vẫn ghi nhận rằng xe tăng 843 là chiếc đầu tiên tiến vào Dinh Độc Lập. Tuy nhiên, năm 1995, Françoise Demulder công bố bức ảnh cho thấy xe 390 thực tế đã vào trước qua cổng chính, còn xe 843 vẫn đang kẹt phía sau trụ thép của cổng phụ bên phải (nhìn từ bên trong dinh ra). Trong ảnh, Bùi Quang Thận được thấy đang chạy bộ với lá cờ Giải phóng quân trong tay. Cả hai xe tăng sau đó đều được công nhận là bảo vật quốc gia năm 2012. Xe 843 hiện đang được trưng bày tại Bảo tàng Lịch sử Quân sự Việt Nam ở Nam Từ Liêm, Hà Nội, còn xe 390 hiện được trưng bày tại Bảo tàng Lực lượng Tăng - Thiết giáp ở Cầu Giấy, Hà Nội.
-                        Dương Văn Minh và Vũ Văn Mẫu được binh sĩ QGPMNVN hộ tống ra xe Jeep để đến đài phát thanh đọc tuyên bố đầu hàng.
-                        Vào lúc 11:30, Trung úy Bùi Quang Thận đã hạ lá cờ Việt Nam Cộng hòa trên nóc dinh xuống và kéo lá cờ Chính phủ Cách mạng lâm thời Cộng hòa Miền Nam Việt Nam lên. Khoảng 10 phút sau khi xe tăng 390 phá cổng, Chính ủy Bùi Văn Tùng cũng tới dinh. Khi Dương Văn Minh thấy Trung tá Tùng là sĩ quan cao cấp nhất có mặt lúc đó, ông nói: "Tôi chờ các ông tới để bàn giao chính quyền". Bùi Văn Tùng liền đáp: "Các ông đã không còn gì để bàn giao. Thay mặt Cách mạng, tôi đề nghị ông ra lệnh đầu hàng vô điều kiện để tránh đổ máu không cần thiết.
-                        Bùi Văn Tùng sau đó viết bản tuyên bố đầu hàng, giải thể toàn bộ chính quyền Việt Nam Cộng hòa. Ông cùng nhiều người, trong đó có Đại úy Phạm Xuân Thệ hộ tống Dương Văn Minh đến Đài phát thanh Sài Gòn để đọc tuyên bố, nhằm tránh thêm thương vong không cần thiết. Toàn bộ sự kiện được nhà báo Đức Börries Gallasch ghi âm lại bằng máy ghi âm cá nhân.
-                        Vào lúc 14 giờ 30, tại đài phát thanh, Tổng thống Dương Văn Minh thay mặt toàn bộ nội các của chính phủ Sài Gòn đã đọc tuyên bố đầu hàng vô điều kiện:</p>
-                        <blockquote>"Tôi, Đại tướng Dương Văn Minh, Tổng thống chính quyền Sài Gòn, kêu gọi Quân lực Việt Nam Cộng Hòa hạ vũ khí đầu hàng không điều kiện quân Giải phóng Miền Nam Việt Nam. Tôi tuyên bố chính quyền Sài Gòn từ trung ương đến địa phương phải giải Mỹ hoàn toàn. Từ trung ương đến địa phương trao lại cho Chính phủ Cách mạng lâm thời miền Nam Việt Nam."</blockquote>
-                        <p class="clamp-text">Thay mặt các đơn vị quân Giải phóng đánh chiếm dinh Độc Lập, Trung tá Bùi Văn Tùng đọc lời tiếp nhận đầu hàng:</p>
-                        <blockquote>"Chúng tôi đại diện lực lượng quân Giải phóng Miền Nam Việt Nam long trọng tuyên bố Thành phố Sài Gòn đã được giải phóng hoàn toàn, chấp nhận sự đầu hàng không điều kiện của Tướng Dương Văn Minh, Tổng thống chính quyền Sài Gòn."</blockquote>
+        <div class="article" id="typical-face">
+            <h2>Gương mặt tiêu biểu</h2>
+            <h3>🌍 Thế giới</h3>
+            <ul>
+                <li><b>Marie Curie</b>: nhà khoa học nổi tiếng, 2 lần nhận giải Nobel.</li>
+                <li><b>Rosa Parks</b>: biểu tượng đấu tranh chống phân biệt chủng tộc ở Mỹ.</li>
+                <li><b>Clara Zetkin</b>: người đề xuất Ngày Quốc tế Phụ nữ 8/3.</li>
+                <li><b>Malala Yousafzai</b>: đấu tranh cho quyền được đi học của trẻ em gái.</li>
+                <li><b>Angela Merkel</b>: nữ Thủ tướng Đức, lãnh đạo có ảnh hưởng tại châu Âu.</li>
+            </ul>
+            <h3> ⭐️Việt Nam</h3>
+            <ul>
+                <li><b>Hai Bà Trưng</b>: lãnh đạo khởi nghĩa chống ách đô hộ phương Bắc.</li>
+                <li><b>Bà Triệu</b>: nữ anh hùng chống quân Ngô.</li>
+                <li><b>Nguyễn Thị Minh Khai</b>: nhà cách mạng tiêu biểu.</li>
+                <li><b>Võ Thị Sáu</b>: anh hùng liệt sĩ thời kháng chiến chống Pháp.</li>
+                <li><b>Nguyễn Thị Định</b>: nữ tướng đầu tiên của Quân đội Nhân dân Việt Nam.</li>
+                <li><b>Nguyễn Thị Bình</b>: nhà ngoại giao, góp phần ký Hiệp định Paris 1973.</li>
+            </ul>
+        </div>
 
-                        <h3>Những sự kháng cự cuối cùng</h3>
-                        
-                        <figure class="img-box">
-                            <img src="7.jpeg" alt="Những sự kháng cự cuối cùng">
-                        </figure>
-                        
-                        <p class="clamp-text">Sau khi Quân Giải phóng miền Nam Việt Nam tiếp quản Sài Gòn, các tuyến liên lạc chính giữa thành phố và thế giới bên ngoài lập tức bị cắt đứt. Ngay trong buổi sáng ngày 30 tháng 4, khu vực phía Tây Nam thủ đô – đặc biệt là vùng Đồng bằng sông Cửu Long – vẫn còn ghi nhận các hoạt động tác chiến lẻ tẻ. Một số máy bay của Không lực Việt Nam Cộng hòa cất cánh từ căn cứ không quân Bình Thủy (nay là Sân bay quốc tế Cần Thơ) nhằm đánh chặn các đơn vị QGPMNVN đang tiến công, đánh dấu trận xuất kích cuối cùng của KLVNCH trong chiến tranh Việt Nam.
-                        Trên bộ, lực lượng thuộc Quân đoàn 4 của QLVNCH vẫn tiếp tục duy trì hoạt động đối kháng. Chuẩn tướng Lê Văn Hưng, Phó Tư lệnh quân đoàn, từng dự tính tận dụng nguồn lương thực dồi dào của vùng đồng bằng để tổ chức một phong trào kháng chiến bí mật kéo dài. Tuy nhiên, các đơn vị du kích quân Giải phóng tại địa phương – vốn từng bị tổn thất nặng nề trong giai đoạn Chiến dịch Phụng Hoàng – nhanh chóng trỗi dậy, mở các đợt tấn công tái kiểm soát địa bàn, cô lập Quân đoàn 4 với trung tâm Sài Gòn, khiến kế hoạch kháng cự nhanh chóng sụp đổ.
-                        Tối ngày 30 tháng 4, tại Bộ Tư lệnh Quân đoàn 4 ở Cần Thơ, Chuẩn tướng Lê Văn Hưng cùng Thiếu tướng Nguyễn Khoa Nam, Tư lệnh Quân khu, đã chọn cách tự sát trước tình thế thất bại không thể đảo ngược. Ngay sau đó, Quân khu 4 chính thức tan rã. Cùng ngày, một số tướng lĩnh khác của Nam Việt Nam cũng tự kết liễu, bao gồm Chuẩn tướng Trần Văn Hai – Tư lệnh Sư đoàn 7 Bộ binh, và Thiếu tướng Phạm Văn Phú – nguyên Tư lệnh Quân khu 2. Trong những ngày đầu tháng 5, rải rác vẫn còn một số nhóm quân cảnh và binh sĩ QLVNCH tiếp tục kháng cự, tiêu biểu như trường hợp của Đại tá Hồ Ngọc Cẩn, nhưng đều nhanh chóng bị đánh bại và bắt giữ.
-                    Cũng trong tối ngày 30 tháng 4, các tỉnh ngoại vi chưa bị kiểm soát hoàn toàn như Tây Ninh, Hậu Nghĩa, Long An và Gò Công lần lượt tuyên bố đầu hàng. Đến ngày 2 tháng 5 năm 1975, toàn bộ các tỉnh thuộc vùng Đồng bằng sông Cửu Long và phần còn lại của miền Nam đã tuyên bố chấp nhận sự tiếp quản của Chính phủ Cách mạng Lâm thời Cộng hòa Miền Nam Việt Nam.</p>
-                    </div>
-                </section>
+        <div class="article" id="activities">
+            <h2>Hoạt động và sự kiện</h2>
+            <h3>🏫 Trong trường học</h3>
+            <ul>
+                <li>Tổ chức mít-tinh hoặc sinh hoạt dưới cờ để nói về ý nghĩa ngày 8/3.</li>
+                <li>Tổ chức các cuộc thi viết, vẽ tranh hoặc làm báo tường về mẹ, cô giáo và phụ nữ.</li>
+                <li>Tổ chức chương trình văn nghệ chào mừng ngày Quốc tế Phụ nữ.</li>
+                <li>Tặng hoa và thiệp chúc mừng cho cô giáo và các bạn nữ trong lớp.</li>
+                <li>Tổ chức trò chơi hoặc đố vui về những người phụ nữ nổi tiếng của Việt Nam và thế giới.</li>
+            </ul>
+            <h3>🏡 Trong gia đình</h3>
+            <ul>
+                <li>Tặng hoa hoặc những món quà nhỏ cho mẹ và bà.</li>
+                <li>Cùng nhau chuẩn bị và nấu một bữa cơm gia đình.</li>
+                <li>Viết thiệp hoặc lời chúc ý nghĩa dành tặng mẹ.</li>
+                <li>Dành nhiều thời gian trò chuyện và quan tâm đến các thành viên nữ trong gia đình.</li>
+            </ul>
+            <h3>🏢 Trong công ty</h3>
+            <ul>
+                <li>Tổ chức buổi gặp mặt hoặc liên hoan nhân ngày Quốc tế Phụ nữ.</li>
+                <li>Tặng hoa, quà hoặc voucher cho nhân viên nữ.</li>
+                <li>Tổ chức các hoạt động team-building hoặc minigame.</li>
+                <li>Tuyên dương và khen thưởng những nữ nhân viên tiêu biểu.</li>
+                <li>Tổ chức talkshow ngắn về bình đẳng giới và sự phát triển của phụ nữ.</li>
+            </ul>
+        </div>
 
-                <section id="ket-qua-y-nghia">
-                    <h2 class="main-title">Kết quả & Ý nghĩa lịch sử</h2>
-                    <div class="meaning-card">
-                        <img src="50.jpeg" alt="Kết quả">
-                        <div class="meaning-text">
-                            <h3>KẾT QUẢ</h3>
-                            <p class="clamp-text">Đập tan bộ máy chiến tranh và cơ quan trung ương của chính quyền Sài Gòn. Đất nước hoàn toàn sạch bóng quân xâm lược, chấm dứt sự chia cắt hai miền Nam - Bắc kéo dài suốt 21 năm khói lửa.</p>
-                        </div>
-                    </div>
+        <div class="article" id="wishes">
+            <h2>Lời chúc 8/3</h2>
+            <h3>🌸 Lời chúc dành cho mẹ</h3>
+            <ul>
+                <li>Con chúc mẹ luôn mạnh khỏe, vui vẻ và hạnh phúc. Con luôn yêu và biết ơn mẹ rất nhiều.</li>
+                <li>Mẹ là người phụ nữ tuyệt vời nhất trong lòng con. Chúc mẹ ngày 8/3 thật nhiều niềm vui.</li>
+            </ul>
+            <h3>🌸 Lời chúc dành cho cô giáo</h3>
+            <ul>
+                <li>Chúc cô luôn mạnh khỏe, hạnh phúc và tiếp tục truyền cảm hứng cho nhiều thế hệ học trò.</li>
+                <li>Nhân ngày 8/3, em chúc cô luôn thành công và tràn đầy nhiệt huyết với nghề.</li>
+            </ul>
+            <h3>🌸 Lời chúc dành cho bạn bè và người yêu</h3>
+            <ul>
+                <li>Chúc bạn luôn xinh đẹp, tự tin và hạnh phúc theo cách của riêng mình.</li>
+                <li>Chúc cậu một ngày 8/3 thật vui vẻ, luôn được yêu thương và mỉm cười nhiều hơn.</li>
+                <li>Chúc em luôn rạng rỡ, hạnh phúc và mãi ở bên anh.</li>
+            </ul>
+        </div>
 
-                    <div class="meaning-card">
-                        <img src="17.jpg" alt="Ý nghĩa">
-                        <div class="meaning-text">
-                            <h3>Ý NGHĨA</h3>
-                            <p class="clamp-text">Chiến thắng 30/4 chấm dứt cách mạng dân tộc dân chủ nhân dân. Sự kiện vĩ đại này đã mở ra một kỷ nguyên mới – kỷ nguyên độc lập, thống nhất và cả nước đi lên Chủ nghĩa Xã hội.</p>
-                        </div>
-                    </div>
-                </section>
+        <img src="images/hoa.jpg" alt="Hoa">
 
-                <section id="bai-hoc">
-                    <h2 class="main-title">Bài học & Trách nhiệm</h2>
-                    <div class="article-block">
-                        <h3>Bài học về sức mạnh của đoàn kết toàn dân tộc</h3>
-                        <p class="clamp-text">Một trong những bài học nổi bật nhất từ sự kiện ngày 30/4/1975 là sức mạnh to lớn của tinh thần đoàn kết dân tộc. Cuộc kháng chiến chống Mỹ đã chứng minh rằng một dân tộc tuy nhỏ bé, nguồn lực còn hạn chế, nhưng khi toàn dân đồng lòng thì có thể vượt qua những thử thách tưởng chừng không thể. Từ miền Bắc đến miền Nam, từ những người lính ngoài chiến trường đến nhân dân nơi hậu phương, tất cả đều chung một ý chí và mục tiêu: giành độc lập và thống nhất đất nước.</p>
-                        <p class="clamp-text">Bài học ấy đến nay vẫn còn nguyên giá trị. Trong bối cảnh toàn cầu hóa cùng nhiều thách thức mới như biến đổi khí hậu, dịch bệnh hay cạnh tranh kinh tế, tinh thần đoàn kết giữa các tầng lớp xã hội, các vùng miền và các cộng đồng vẫn là yếu tố then chốt giúp Việt Nam phát triển bền vững. Đoàn kết không chỉ là sự gắn bó về tinh thần mà còn là sự hợp tác hiệu quả, tôn trọng sự đa dạng và cùng nhau hướng tới lợi ích chung của đất nước.</p>
+        <div class="article" id="expand">
+            <h2>Thư viện ảnh - video</h2>
+            <p>Đây là nơi lưu giữ những hình ảnh và video ghi lại các hoạt động ý nghĩa trong ngày Quốc tế Phụ nữ, giúp mọi người cùng nhìn lại những khoảnh khắc đẹp và đáng nhớ.</p>
 
-                        <h3>Nghệ thuật quân sự độc đáo và sự chỉ huy dũng cảm</h3>
-                        <p class="clamp-text">Bài học thứ hai là bài học về sự chỉ huy dũng cảm và thao lược. Cuộc Tổng tiến công và nổi dậy mùa Xuân năm 1975 đã thể hiện rõ tài lãnh đạo sáng suốt, tầm nhìn chiến lược và nghệ thuật chỉ huy tài tình của Bộ Chính trị và Quân ủy Trung ương. Nhờ biết nắm bắt đúng thời cơ và tổ chức các đòn tiến công táo bạo, quyết đoán, quân và dân ta đã nhanh chóng giải phóng miền Nam, hoàn thành sự nghiệp thống nhất đất nước.</p>
-                        
-                        <h3>Trang sử vàng không thể quên</h3>
-                        <p class="clamp-text">Cách đây 50 năm, vào mùa Xuân năm 1975, toàn dân tộc ta đã làm làm nên một chiến công chói lọi trong lịch sử – cuộc Tổng tiến công và nổi dậy vĩ đại mà đỉnh cao là Chiến dịch Hồ Chí Minh lịch sử. Ngày 30/4/1975 đã khắc sâu vào tâm khảm triệu triệu người con đất Việt như một mốc son huy hoàng, mở ra kỷ nguyên mới – kỷ nguyên độc lập, tự do, thống nhất non sông, đưa đất nước vững bước trên con đường xây dựng chủ nghĩa xã hội. Cuộc chiến khốc liệt trong lịch sử dân tộc đã đi qua nhưng những nỗi đau, mất mát vẫn còn đó… Với những người trẻ hiện đại, ngày 30/4 là một dấu mốc quan trọng không thể quên, là bài học xương máu để họ nỗ lực, cống hiến hết mình cho sự phát triển trường tồn của dân tộc.</p>
-
-                        <h3 id="trach-nhiem">Trách nhiệm của thế hệ trẻ hôm nay</h3>
-                        <figure class="img-box">
-                            <img src="51.jpeg" alt="Học sinh viếng nghĩa trang liệt sĩ">
-                        </figure>
-                        <p class="clamp-text">Ngày nay khi đất nước đã hòa bình lặp lại, thế hệ chúng ta được sống trong môi trường tốt hơn, mọi thứ đầy đủ và sung túc. Càng như vậy thế hệ chúng ta càng phải thấm nhuần, biết ơn những người đã hi sinh đi trước để Bảo vệ Tổ quốc mang lại cuộc sống bình yên. Để cảm ơn những vị cha, anh, chị đã hi sinh thì thế hệ học sinh chúng ta phải sống ý nghĩa và phải gia sức bảo vệ Tổ quốc. Mỗi chúng ta, thế hệ trẻ hôm nay để làm tốt điều này thì phải coi đây là một nghĩa vụ thiêng liêng cao quý của mỗi công dân. Vậy trách nhiệm của mỗi người đối với việc bảo vệ Tổ quốc là vô cùng quan trọng:</p>
-                        <ul class="clamp-text" style="padding-left: 20px;">
-                            <li>Tích cực học tập, rèn luyện thân thể, giữ gìn vệ sinh, bảo vệ sức khoẻ.</li>
-                            <li>Trung thành với Tổ quốc, với chế độ xã hội chủ nghĩa. Cảnh giác trước âm mưu chia rẽ, xuyên tạc của thế lực thù địch; phê phán, đấu tranh với những thái độ, việc làm gây tổn hại đến an ninh quốc gia.</li>
-                            <li>Tích cực tham gia các hoạt động an ninh, quốc phòng ở địa phương; tham gia đền ơn đáp nghĩa…</li>
-                            <li>Tham gia đăng kí tham gia huấn luyện nghĩa vụ quân sự khi đến tuổi; sẵn sàng lên đường làm nghĩa vụ bảo vệ Tổ quốc.</li>
-                            <li>Vận động bạn bè, người thân thực hiện tốt nghĩa vụ bảo vệ Tổ quốc.</li>
-                        </ul>
-                        <p class="clamp-text">Hãy rất vững tin vào hàng triệu bạn trẻ Việt Nam có trái tim nhiệt huyết với khối óc của mình sẽ phát huy sức trẻ, là bệ phóng để Việt Nam vươn mình. Còn đối với số ít những người ngủ quên trong hòa bình mà quên đi quá khứ đau thương, mất mát, nhưng anh hùng, vĩ đại của dân tộc Việt Nam thì cũng nên nhìn nhận lại chính mình. Bởi vì suy nghĩ của họ không cùng chung dòng chảy trong suy nghĩ của dân tộc ta, họ sẽ phải sống dằn vặt và bị xã hội quay lưng khi dám quay lưng lại với quá khứ. Và chắc chắn khi họ quên đi quá khứ hào hùng, dù có làm gì ở đâu, đối với cả dân tộc họ luôn là người thất bại, bạn Dũng nhấn mạnh.</p>
-                    </div>
-                </section>
-
-                <section id="tu-lieu">
-                    <h2 class="main-title">Tư Liệu Học Tập</h2>
-                    <div class="article-block">
-                        <h3 id="van-ban-tu-lieu">1. VĂN BẢN</h3>
-                        <p class="clamp-text">Trong suốt 30 năm đấu tranh vũ trang vì độc lập tự do, thống nhất đất nước có phần công sức lớn của lực lượng biệt động. Là chỉ huy trưởng lực lượng Biệt động Sài Gòn - Gia Định, Đại tá Nguyễn Đức Hùng (1928-2012), thường gọi là Tư Chu, đã viết cuốn sách “Biệt Động Sài Gòn - Chợ Lớn - Gia Định trong 30 năm chiến tranh giải phóng (1945 - 1975)”.</p>
-                        <p class="clamp-text">Tác giả Nguyễn Hữu Thái là một “người trong cuộc” chứng kiến ngày sụp đổ và giải phóng Sài Gòn hơn 30 năm về trước. Nguyễn Hữu Thái nguyên là cựu Chủ tịch Tổng hội Sinh viên Sài Gòn (1963-1964) hoạt động trong phong trào nội thành.</p>
-                        <p class="clamp-text">Tác phẩm: Gia đình, bạn bè và đất nước – Nguyễn Thị Bình (hồi ký, 2012; tái bản 2025). Tác phẩm: Hồi ký chiến trường: Từ sông Bến Hải đến Dinh Độc Lập – Thiếu tướng Hoàng Đan (nhật ký, 2025).</p>
-
-                        <h3 id="sach-hoi-ky">Sách & Hồi ký lịch sử</h3>
-                        <ul class="books-list">
-                            <li>
-                                <img src="42.jpg" alt="Biệt động Sài Gòn">
-                                <div>
-                                    <h4>Biệt Động Sài Gòn (1945 - 1975)</h4>
-                                    <p class="clamp-text">Lịch sử 30 năm xây dựng và những chiến thắng vẻ vang của lực lượng Biệt động.</p>
-                                </div>
-                            </li>
-                            <li>
-                                <img src="44.jpg" alt="Bút ký lính tăng">
-                                <div>
-                                    <h4>Bút ký lính tăng</h4>
-                                    <p class="clamp-text">Hành trình đến ngày chiến thắng được chiến sĩ lái xe tăng 380 Đại tá Nguyễn Khắc Nguyệt kể lại.</p>
-                                </div>
-                            </li>
-                            <li>
-                                <img src="46.jpg" alt="Từ sông Bến Hải">
-                                <div>
-                                    <h4>Từ sông Bến Hải đến Dinh Độc Lập</h4>
-                                    <p class="clamp-text">Hồi ức của Thiếu tướng Hoàng Đan. Ông nhắc những kỷ niệm về các trận đánh mà ông và đồng đội trải qua.</p>
-                                </div>
-                            </li>
-                            <li>
-                                <img src="43.jpg" alt="Tổng hành dinh">
-                                <div>
-                                    <h4>Tổng hành dinh trong mùa Xuân</h4>
-                                    <p class="clamp-text">Hồi ức của Đại tướng Võ Nguyên Giáp về chiến lược, sự sáng suốt và nhạy bén của Bộ thống soái tối cao.</p>
-                                </div>
-                            </li>
-                            <li>
-                                <img src="47.jpg" alt="Chuyện Ít Biết">
-                                <div>
-                                    <h4>Chuyện Ít Biết Về 30/4/1975</h4>
-                                    <p class="clamp-text">Tác giả Nguyễn Hữu Thái ghi lại lời kể của những nhân chứng khác đến từ các phía đối nghịch.</p>
-                                </div>
-                            </li>
-                        </ul>
-
-                        <h3 id="hinh-anh-hien-vat">2. Hình Ảnh Lịch Sử (Từ Tài Liệu)</h3>
-                        <div class="document-grid">
-                            
-                            <figure class="img-box">
-                                <img src="13.jpg" loading="lazy">
-                                <figcaption><strong>Hình 1:</strong> Xe tăng tiến vào Sài Gòn, khép lại một thời kỳ chiến tranh, mở ra kỷ nguyên thống nhất đất nước.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="14.jpg" loading="lazy">
-                                <figcaption><strong>Hình 2:</strong> Ánh mắt hạnh phúc của người dân Sài Gòn ngày giải phóng nói lên tất cả.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="15.jpg" loading="lazy">
-                                <figcaption><strong>Hình 3:</strong> Từng con đường, góc phố ngày 30/4/1975 tràn ngập sắc cờ và niềm vui thống nhất.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="16.jpg" loading="lazy">
-                                <figcaption><strong>Hình 4:</strong> Bộ đội hoàn thành giải phóng được Sài Gòn.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="17.jpg" loading="lazy">
-                                <figcaption><strong>Hình 5:</strong> Xe tăng tiến vào Dinh Độc Lập.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="18.jpg" loading="lazy">
-                                <figcaption><strong>Hình 6:</strong> Trang nhất Báo Quân đội nhân dân số ra ngày 30-4-1975.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="19.jpg" loading="lazy">
-                                <figcaption><strong>Hình 7:</strong> Xe tăng T54b, số hiệu 843 của Đại đội 4, Tiểu đoàn 1, Lữ đoàn 203 đánh chiếm phủ Tổng thống trưa ngày 30-4-1975.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="20.jpg" loading="lazy">
-                                <figcaption><strong>Hình 8:</strong> Xe Jeep số 15770 của lữ đoàn dù ngụy Sài Gòn do Sư đoàn 304 thu tại Sân bay Đà Nẵng. Đại úy Phạm Xuân Thệ đã sử dụng xe này đưa Dương Văn Minh sang Đài phát thanh.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="21.jpg" loading="lazy">
-                                <figcaption><strong>Hình 9:</strong> Bút tích lời tuyên bố đầu hàng không điều kiện của Tổng thống chính quyền Sài Gòn Dương Văn Minh trưa ngày 30-4-1975.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="22.jpg" loading="lazy">
-                                <figcaption><strong>Hình 10:</strong> Loa phóng thanh gắn trên xe zeep tiến vào giải phóng thị trấn Dương Đông ngày 30-4-1975.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="23.jpg" loading="lazy">
-                                <figcaption><strong>Hình 11:</strong> Mũ tai bèo, túi, áo cứu thương do chị Nguyễn Thị Trung Kiên sử dụng dẫn đường cho xe tăng sáng 30-4-1975.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="24.jpg" loading="lazy">
-                                <figcaption><strong>Hình 12:</strong> Cờ ngụy do lực lượng của Quân đoàn 2 thu tại dinh Tổng thống chính quyền Sài Gòn, ngày 30-4-1975.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="25.jpg" loading="lazy">
-                                <figcaption><strong>Hình 13:</strong> Súng ngắn Browning của Tổng thống Dương Văn Minh, do Đại úy Phạm Xuân Thệ thu trưa ngày 30-4-1975.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="26.jpg" loading="lazy">
-                                <figcaption><strong>Hình 14:</strong> Quân ủy trung ương theo dõi diễn biến chiến dịch Hồ Chí Minh, tháng 4/1975.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="27.jpg" loading="lazy">
-                                <figcaption><strong>Hình 15:</strong> Máy bay tiêm kích bom F-5 của ngụy, bị quân giải phóng thu được tại sân bay Biên Hòa.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="28.jpg" loading="lazy">
-                                <figcaption><strong>Hình 16:</strong> Bộ đội pháo binh trước giờ xuất kích.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="29.jpg" loading="lazy">
-                                <figcaption><strong>Hình 17:</strong> Máy bay trực thăng vận tải CH-47 Chinook bị quân giải phóng thu được tại Tân Sơn Nhất.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="30.jpg" loading="lazy">
-                                <figcaption><strong>Hình 18:</strong> Các chiến sĩ quân giải phóng đang chạy vào Dinh Độc Lập cắm cờ cách mạng.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="31.jpg" loading="lazy">
-                                <figcaption><strong>Hình 19:</strong> Tiến vào bắt sống toàn bộ nội các Sài Gòn.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="32.jpg" loading="lazy">
-                                <figcaption><strong>Hình 20:</strong> Tổng thống Dương Văn Minh cùng nội các ra trước đài phát thanh tuyên bố đầu hàng vô điều kiện.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="33.jpg" loading="lazy">
-                                <figcaption><strong>Hình 21:</strong> Người dân Sài Gòn đổ ra đường vui mừng chiến thắng với hình ảnh Chủ tịch Hồ Chí Minh.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="34.jpg" loading="lazy">
-                                <figcaption><strong>Hình 22:</strong> Tước vũ khí của quân đội Sài Gòn.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="35.jpg" loading="lazy">
-                                <figcaption><strong>Hình 23:</strong> Cùng với cả nước, Sài Gòn ngợp cờ hoa, biểu ngữ ăn mừng chiến thắng.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="36.jpg" loading="lazy">
-                                <figcaption><strong>Hình 24:</strong> Quân ta duyệt binh ngày chiến thắng.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="37.jpg" loading="lazy">
-                                <figcaption><strong>Hình 25:</strong> Nụ cười chiến thắng.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="38.jpg" loading="lazy">
-                                <figcaption><strong>Hình 26:</strong> Người dân vây quanh Quân Giải phóng.</figcaption>
-                            </figure>
-
-                            <figure class="img-box">
-                                <img src="39.jpg" loading="lazy">
-                                <figcaption><strong>Hình 27:</strong> Bản đồ diễn biến quân sự tại khu vực thủ đô Sài Gòn trước ngày 30 tháng 4 năm 1975.</figcaption>
-                            </figure>
-                            
-                            <figure class="img-box">
-                                <img src="49.jpeg" loading="lazy">
-                                <figcaption><strong>Hình 28:</strong> Đường phố Sài Gòn nhộn nhịp sau ngày 30.4.1975.</figcaption>
-                            </figure>
-                        </div>
-                        
-                        <h3 id="video-tu-lieu" style="margin-top: 50px;">3. Video Tư Liệu</h3>
-                        <div class="video-container">
-                            <div class="video-item"><video src="40.mp4" controls preload="metadata"></video><p>Chiến dịch HỒ CHÍ MINH</p></div>
-                            <div class="video-item"><video src="41.mp4" controls preload="metadata"></video><p>Bản tin toàn thắng năm ấy</p></div>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="thanh-vien">
-                    <div class="article-block" style="background: var(--bg-deep); border-color: var(--gold); padding: 40px; font-family: 'Segoe UI', Roboto, sans-serif;">
-                        <h2 style="text-align: center; color: var(--gold); letter-spacing: 6px; margin-bottom: 50px; text-transform: uppercase; font-size: 2.2rem; text-shadow: 0 0 20px var(--gold-glow); border: none; box-shadow: none; background: none;">
-                            <i class="fas fa-shield-halved"></i> BIỆT ĐỘI CHIẾN DỊCH 30/4
-                        </h2>
-                        
-                        <div class="task-grid">
-                            <div class="member-card" onclick="toggleCard(this)">
-                                <div class="card-header">
-                                    <img src="hung.jpg" class="avatar" alt="Ava" onerror="this.src='https://via.placeholder.com/90'">
-                                    <div class="info">
-                                        <span class="name">Võ Đức Hùng</span>
-                                        <span class="short-task">Nhóm trưởng, viết code</span>
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <ul>
-                                        <li><i class="fas fa-tasks"></i> Phân công nhiệm vụ, viết code</li>
-                                        <li><i class="fas fa-check"></i> Duyệt nội dung</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="member-card" onclick="toggleCard(this)">
-                                <div class="card-header">
-                                    <img src="lam.jpg" class="avatar" alt="Ava" onerror="this.src='https://via.placeholder.com/90'">
-                                    <div class="info">
-                                        <span class="name">Nguyễn Thùy Tường Lam</span>
-                                        <span class="short-task">Thư kí</span>
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <ul>
-                                        <li><i class="fas fa-pen"></i> Ghi chép</li>
-                                        <li><i class="fas fa-file-word"></i> Tìm nội dung</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="member-card" onclick="toggleCard(this)">
-                                <div class="card-header">
-                                    <img src="hphuong.jpg" class="avatar" alt="Ava" onerror="this.src='https://via.placeholder.com/90'">
-                                    <div class="info">
-                                        <span class="name">Lê Thị Hồng Phượng</span>
-                                        <span class="short-task">Viết code</span>
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <ul>
-                                        <li><i class="fas fa-code"></i> Code HTML/CSS</li>
-                                        <li><i class="fas fa-laptop-code"></i> Thiết kế Web, tổng hợp nội dung</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="member-card" onclick="toggleCard(this)">
-                                <div class="card-header">
-                                    <img src="qngoc.jpg" class="avatar" alt="Ava" onerror="this.src='https://via.placeholder.com/90'">
-                                    <div class="info">
-                                        <span class="name">Nguyễn Thị Quỳnh Ngọc</span>
-                                        <span class="short-task">Tìm nội dung</span>
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <ul>
-                                        <li><i class="fas fa-code"></i> Lập trình JV</li>
-                                        <li><i class="fas fa-bug"></i> Tìm nội dung, thiết kế web</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="member-card" onclick="toggleCard(this)">
-                                <div class="card-header">
-                                    <img src="mt.jpg" class="avatar" alt="Ava" onerror="this.src='https://via.placeholder.com/90'">
-                                    <div class="info">
-                                        <span class="name">Đỗ Minh Triều</span>
-                                        <span class="short-task">Tìm nội dung</span>
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <ul>
-                                        <li><i class="fas fa-search"></i> Tìm dữ liệu lịch sử</li>
-                                        <li><i class="fas fa-book"></i> Viết bài học</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="member-card" onclick="toggleCard(this)">
-                                <div class="card-header">
-                                    <img src="boi (1).jpg" class="avatar" alt="Ava" onerror="this.src='https://via.placeholder.com/90'">
-                                    <div class="info">
-                                        <span class="name">Nguyễn Hữu Nhật Nguyên</span>
-                                        <span class="short-task">Tìm nội dung</span>
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <ul>
-                                        <li><i class="fas fa-lightbulb"></i> Tìm tài liệu lịch sử</li>
-                                        <li><i class="fas fa-palette"></i> Viết nội dung</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="member-card" onclick="toggleCard(this)">
-                                <div class="card-header">
-                                    <img src="nvy.jpg" class="avatar" alt="Ava" onerror="this.src='https://via.placeholder.com/90'">
-                                    <div class="info">
-                                        <span class="name">Nguyễn Thị Ngọc Vy</span>
-                                        <span class="short-task">Tìm nội dung</span>
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <ul>
-                                        <li><i class="fas fa-code"></i> Tìm hình ảnh</li>
-                                        <li><i class="fas fa-server"></i> Quản lý Form</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="member-card" onclick="toggleCard(this)">
-                                <div class="card-header">
-                                    <img src="coi.jpg" class="avatar" alt="Ava" onerror="this.src='https://via.placeholder.com/90'">
-                                    <div class="info">
-                                        <span class="name">Đỗ Hải Đăng</span>
-                                        <span class="short-task">Tìm nội dung</span>
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <ul>
-                                        <li><i class="fas fa-image"></i> Tìm nội dung</li>
-                                        <li><i class="fas fa-video"></i> Tìm video 30/4</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                       <div class="team-contact" style="text-align: center; margin-top: 40px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 10px; border: 2px dashed var(--gold);">
-    <p style="font-size: 1.5em; color: var(--gold); font-weight: bold; margin: 10px 0; font-family: 'Oswald', sans-serif;">THÔNG TIN LIÊN HỆ: Nhóm 1 Tin Học lớp 12A1</p>
-    <p style="font-size: 1.1em; color: #ddd; margin-bottom: 5px;">
-        <i class="fab fa-facebook" style="color: #1877f2;"></i> Facebook: <a href="https://www.facebook.com/share/1GoJJrLLgj/" target="_blank" style="color: #00aaff; text-decoration: none;">Võ Đức Hùng</a> | 
-        <i class="fas fa-phone-alt" style="color: #25d366;"></i> Zalo: 0384 535 921
-    </p>
-    <p style="font-size: 1.1em; color: #ddd;">EMAIL: duchungvo793@gmail.com</p>
-</div>
-                    </div>
-                </section>
-
-                <section id="khu-vuc-binh-luan">
-                    <h2 class="main-title">BÌNH LUẬN CỦA BẠN ĐỌC</h2>
-                    <div class="article-block">
-                        
-                        <div class="comment-form-box">
-                            <form id="pageCommentForm">
-                                <input type="text" id="webName" placeholder="Tên hiển thị của bạn..." required>
-                                <textarea id="webText" rows="3" placeholder="Viết bình luận của bạn..." required></textarea>
-                                <button type="submit" id="webCmtBtn">Đăng Bình Luận</button>
-                            </form>
-                        </div>
-
-                        <div id="dynamic-comments">
-                            </div>
-                    </div>
-                </section>
-
+            <div class="image-gallery">
+                <div class="gallery-item"><img src="images/mai.jpg" alt="Mai"></div>
+                <div class="gallery-item"><img src="images/chi.jpg" alt="Chi"></div>
+                <div class="gallery-item"><img src="images/dmy.jpg" alt="Diem My"></div>
+                <div class="gallery-item"><img src="images/an.jpg" alt="An"></div>
+                <div class="gallery-item"><img src="images/bnhu.jpg" alt="Binh Nhu"></div>
+                <div class="gallery-item"><img src="images/mh.jpg" alt="Minh Hanh"></div>
             </div>
-        </main>
+            <p>Hình ảnh của những người phụ nữ đã dìu dắt chúng em trong suốt chặng hành trình thanh xuân rực rỡ</p>
 
-        <footer id="footer-lien-he">
-    <h2>Bản hùng ca Đại thắng Mùa Xuân 1975</h2>
-    <p>Trang thông tin lịch sử được nghiên cứu và phát triển bởi</p>
-    <div class="author">Nhóm 1 lớp 12A1</div>
-    <div class="contact-box">
-        <p><i class="fas fa-phone-alt"></i> <span>Zalo:</span> 0384 535 921</p>
-        <p><i class="fab fa-facebook"></i> <span>Facebook:</span> <a href="https://www.facebook.com/share/1GoJJrLLgj/" target="_blank" style="color: #fc0; text-decoration: none;">Kết nối với chúng tôi</a></p>
-        <p><i class="fas fa-envelope"></i> <span>Email:</span> duchungvo793@gmail.com</p>
-    </div>
-</footer>
+<div class="image-gallery">
+    <div class="gallery-item"><img src="images/tchinh1.jpg" alt="truong chinh"></div>
+    <div class="gallery-item"><img src="images/tchinh2.jpg" alt="truong chinh"></div>
+    <div class="gallery-item"><img src="images/tchinh3.jpg" alt="truong chinh"></div>
+</div>
+            <p style="margin-top: 20px;">Tuy chỉ là những khoảng thời gian nhỏ nhặt, khoảnh khắc nhỏ nhất của cuộc sống nhưng qua những hình ảnh ấy tao vẫn thấy được niềm vui, sự hạnh phúc và niềm tin yêu của những người phụ nữ.</p>
+            <p>Và nhân dịp để tôn vinh vẻ đẹp của người phụ nữ. Nhóm 6 của chúng em cũng có đôi lời chúc muốn gửi đến tất cả những người phụ nữ có mặt trên toàn thế giới này.</p>
 
-        <div id="video-finale-overlay" class="video-overlay">
-            <button id="close-video-btn">✖ Đóng Video</button>
-            <video id="finale-video" src="ket.mp4" controls preload="auto"></video>
+            <div class="video-container" id="video-special" style="padding-bottom: 0; min-height: 400px; display: flex; justify-content: center; align-items: center; background: transparent; border: none; box-shadow: none;">
+                <video controls style="max-width: 100%; max-height: 100%; border-radius: 20px; width: 100%; aspect-ratio: 16/9; box-shadow: var(--glass-shadow);">
+                    <source src="video.mp4" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ thẻ video.
+                </video>
+            </div>
         </div>
 
-        <div id="ghost-trigger" onclick="toggleGemini()">
-            <img src="chat.png" alt="VN-Chatbot" class="bot-logo">
-        </div>
+        <div class="form-container">
+    <h2>GÓP Ý TRANG WEB</h2>
+    <form action="https://formsubmit.co/tranngocbaonhu08@gmail.com" method="POST">
+        
+        <input type="hidden" name="_captcha" value="false">
+        
+        <input type="hidden" name="_subject" value="Góp ý mới từ Website">
 
-        <div id="feedback-btn" onclick="openFeedbackModal()">
-            <i class="fas fa-envelope"></i> Góp Ý Kín
+        <div class="form-group">
+            <label for="fullname">Họ và tên:</label>
+            <input type="text" id="fullname" name="Họ_và_tên" required placeholder="Tên của bạn">
         </div>
         
-    </div>
-
-    <div id="feedback-modal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeFeedbackModal()">×</span>
-            <h3 style="color: #b30000; text-align: center; margin-bottom: 20px;">Góp Ý Cho Tác Giả</h3>
-            <form id="feedbackForm" action="https://formsubmit.co/ajax/duchung793@gmail.com" method="POST">
-                <input type="hidden" name="_subject" value="[Website 30/4] - Bạn có 1 góp ý kín mới!">
-                <input type="text" name="name" id="fbName" placeholder="Tên của bạn..." required>
-                <input type="email" name="email" id="fbEmail" placeholder="Email của bạn..." required>
-                <textarea name="message" id="fbText" rows="4" placeholder="Nội dung góp ý riêng tư..." required></textarea>
-                <button type="submit" id="fbBtn">Gửi Email</button>
-            </form>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="Email_người_gửi" required placeholder="Email của bạn">
         </div>
-    </div>
+
+        <div class="form-group">
+            <label>Đánh giá của bạn:</label>
+            <div class="radio-group">
+                <label><input type="radio" name="Đánh_giá" value="Rất tốt" checked> Rất tốt</label>
+                <label><input type="radio" name="Đánh_giá" value="Bình thường"> Bình thường</label>
+                <label><input type="radio" name="Đánh_giá" value="Tệ"> Tệ</label>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="comments">Nội dung góp ý:</label>
+            <textarea id="comments" name="Nội_dung" rows="4" placeholder="Ý kiến đóng góp..."></textarea>
+        </div>
+
+        <button type="submit">Gửi góp ý ngay</button>
+    </form>
+</div>
+        </div>
+    <footer id="footer">
+        <div class="footer-container">
+            <div class="footer-text">
+                <p><strong>Lớp 12A1 - Trường THPT Trường Chinh - Nhân Cơ</strong></p>
+                <p>Chịu trách nhiệm: Ban biên tập nhóm 6 - <em>"Thích Ăn Phá Lấu"</em></p>
+                <div class="contact-info">
+                    📞 SĐT: 0987119662 | 📧 Email: pmhuyen0806@gmail.com
+                </div>
+            </div>
+
+          <style>
+    /* Canh giữa tiêu đề */
+    .team-section h2 {
+        text-align: center;
+        margin-bottom: 40px;
+        color: #ffffff; /* Màu chữ tiêu đề */
+    }
+
+    /* ĐỊNH DẠNG LƯỚI (GRID) ĐỂ CHIA 3 CỘT */
+    .member-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 auto;
+        max-width: 1000px;      /* Giới hạn chiều rộng để 3 cột không bị kéo dãn quá đà */
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Lệnh phép thuật chia đúng 3 hàng dọc (3 cột) */
+        gap: 30px;              /* Khoảng cách giữa các khung */
+        justify-items: center;  /* Căn giữa các khung trong lưới */
+    }
+
+    /* KHUNG BAO QUANH MỚI (Khung mờ bao cả ảnh và chữ) */
+    .member-card {
+        background-color: rgba(255, 255, 255, 0.2); /* Nền mờ đục giống ảnh của anh */
+        padding: 20px;
+        border-radius: 25px;    /* Bo góc to cho khung ngoài */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        width: 100%;            /* Chiều rộng khung chiếm hết không gian cột */
+        box-sizing: border-box;
+    }
+
+    /* Định dạng cho hình ảnh */
+    .gallery-item img {
+        width: 160px;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 15px;    /* Bo góc cho ảnh */
+    }
+
+    /* Định dạng cho khung chữ nhỏ bên trong */
+    .member-info {
+        background-color: rgba(255, 255, 255, 0.4); /* Nền cho khung chữ sáng hơn một chút */
+        color: #ffffff;
+        padding: 10px 15px;
+        border-radius: 30px;    /* Bo tròn hai đầu khung chữ */
+        font-size: 14px;
+        font-weight: 500;
+        text-align: center;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* ĐIỀU CHỈNH CHO ĐIỆN THOẠI (Responsive) */
+    /* Khi màn hình nhỏ hơn 768px (điện thoại/tablet nhỏ), tự động chuyển về 1 cột */
+    @media (max-width: 768px) {
+        .member-list {
+            grid-template-columns: 1fr; /* Trở về 1 hàng dọc */
+            padding: 0 20px;
+        }
+    }
+</style>
+
+<div class="footer-divider"></div>
+
+<section id="team" class="team-section">
+    <h2>THÀNH VIÊN THỰC HIỆN</h2>
+    <ul class="member-list">
+        
+        <li class="member-card">
+             <div class="gallery-item"><img src="images/dmy1.jpg" alt="My"></div>
+            <div class="member-info">Huỳnh Diễm My : sửa web</div>
+        </li>
+
+        <li class="member-card">
+            <div class="gallery-item"><img src="images/chi1.jpg" alt="Chi"></div>
+            <div class="member-info">Lê Hoàng Chí : lập trình</div>
+        </li>
+
+        <li class="member-card">
+            <div class="gallery-item"><img src="images/an1.jpg" alt="An"></div>
+            <div class="member-info">Nguyễn Hà An : tìm hình ảnh</div>
+        </li>
+
+        <li class="member-card">
+            <div class="gallery-item"><img src="images/mai1.jpg" alt="Mai"></div>
+            <div class="member-info">Lê Thị Trúc Mai : tìm nội dung</div>
+        </li>
+
+        <li class="member-card">
+            <div class="gallery-item"><img src="images/bnhu1.jpg" alt="Bao Nhu"></div>
+            <div class="member-info">Trần Ngọc Bảo Như : lên ý tưởng</div>
+        </li>
+
+        <li class="member-card">
+            <div class="gallery-item"><img src="images/mh1.jpg" alt="Minh Huyen"></div>
+            <div class="member-info">Phan Minh Huyền : lập trình</div>
+        </li>
+
+    </ul>
+</section>
+    </footer>
 
     <script>
-        // HIỆU ỨNG PHÁO HOA KHI NHẤP VÀO BẤT CỨ ẢNH NÀO
-        document.addEventListener("DOMContentLoaded", function() {
-            var images = document.querySelectorAll('img');
-            for (var i = 0; i < images.length; i++) {
-                images[i].addEventListener('click', function(e) {
-                    var x = e.clientX / window.innerWidth;
-                    var y = e.clientY / window.innerHeight;
-                    confetti({ particleCount: 150, spread: 80, origin: { x: x, y: y }, colors: ['#b30000', '#ffcc00', '#ffffff', '#0b5fb3'], zIndex: 999999 });
-                });
+        document.addEventListener('click', function(e) {
+            const numHearts = 5; // Số trái tim bay ra mỗi lần click
+
+            for (let i = 0; i < numHearts; i++) {
+                let heart = document.createElement('div');
+                heart.innerHTML = '❤️'; // Icon trái tim
+                heart.className = 'heart-click-effect';
+                
+                // Lấy vị trí chuột lúc click trên toàn trang
+                heart.style.left = e.pageX + 'px';
+                heart.style.top = e.pageY + 'px';
+
+                // Tính toán hướng bay ngẫu nhiên tỏa ra các hướng
+                let tx = (Math.random() - 0.5) * 300 + 'px';
+                let ty = (Math.random() - 1) * 300 + 'px';
+                let rot = (Math.random() - 0.5) * 90 + 'deg';
+
+                heart.style.setProperty('--tx', tx);
+                heart.style.setProperty('--ty', ty);
+                heart.style.setProperty('--rot', rot);
+
+                document.body.appendChild(heart);
+
+                // Xóa trái tim sau 1.2s để không nặng web
+                setTimeout(() => {
+                    heart.remove();
+                }, 1200);
             }
         });
-
-        // HÀM LẤY CHỮ CÁI ĐẦU LÀM AVATAR
-        function getInitials(name) {
-            var parts = name.trim().split(' ');
-            if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
-            return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
-        }
-
-        // HÀM LẬT THẺ THÀNH VIÊN
-        function toggleCard(el) {
-            var allCards = document.querySelectorAll('.member-card');
-            allCards.forEach(function(card) { if (card !== el) card.classList.remove('open'); });
-            el.classList.toggle('open');
-        }
-
-        // ===============================================================
-        // CHỨC NĂNG BÌNH LUẬN TRỰC TIẾP TRÊN WEB (LOCALSTORAGE)
-        // ===============================================================
-        function loadComments() {
-            var container = document.getElementById('dynamic-comments');
-            // DÙNG TÊN MỚI ĐỂ ĐẢM BẢO XÓA SẠCH BÌNH LUẬN MẪU CŨ CỦA TRÌNH DUYỆT
-            var comments = JSON.parse(localStorage.getItem('webComments_SuperClean')) || [];
-            
-            container.innerHTML = '';
-            
-            if(comments.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #888; font-style: italic; font-size: 1.2em; padding: 20px;">Chưa có bình luận nào. Hãy là người đầu tiên bình luận!</p>';
-                return;
-            }
-
-            comments.forEach(function(cmt) {
-                var initials = getInitials(cmt.name);
-                container.innerHTML += 
-                    '<div class="comment-item">' +
-                        '<div class="comment-header-box">' +
-                            '<div class="comment-avatar">' + initials + '</div>' +
-                            '<div class="comment-info-box">' +
-                                '<span class="comment-name">' + cmt.name + '</span>' +
-                                '<span class="comment-date">' + cmt.date + '</span>' +
-                            '</div>' +
-                        '</div>' +
-                        '<div class="comment-content-box">' + cmt.text + '</div>' +
-                    '</div>';
-            });
-        }
-
-        document.getElementById('pageCommentForm').addEventListener('submit', function(event) {
-            event.preventDefault(); 
-            var btn = document.getElementById('webCmtBtn');
-            var name = document.getElementById('webName').value.trim();
-            var text = document.getElementById('webText').value.trim();
-
-            btn.innerText = "ĐANG LƯU..."; btn.disabled = true;
-
-            var today = new Date();
-            var dateStr = ("0" + today.getDate()).slice(-2) + "/" + ("0" + (today.getMonth() + 1)).slice(-2) + "/" + today.getFullYear();
-            var newCmt = { name: name, date: dateStr, text: text };
-            
-            var comments = JSON.parse(localStorage.getItem('webComments_SuperClean')) || [];
-            comments.unshift(newCmt); 
-            localStorage.setItem('webComments_SuperClean', JSON.stringify(comments));
-
-            loadComments(); 
-            
-            alert("Đã đăng bình luận thành công lên web!");
-            document.getElementById('pageCommentForm').reset();
-            btn.innerText = "Đăng Bình Luận"; btn.disabled = false;
-        });
-
-        // ===============================================================
-        // CHỨC NĂNG GỬI GÓP Ý KÍN QUA EMAIL (FIX LỖI BÁO ĐỎ VS CODE)
-        // ===============================================================
-        function openFeedbackModal() { document.getElementById('feedback-modal').classList.add('active'); }
-        function closeFeedbackModal() { document.getElementById('feedback-modal').classList.remove('active'); }
-
-        document.getElementById('feedbackForm').addEventListener('submit', function(event) {
-            event.preventDefault(); 
-            var form = event.target;
-            var btn = document.getElementById('fbBtn');
-            btn.innerText = "ĐANG GỬI EMAIL..."; btn.disabled = true;
-
-            fetch(form.action, {
-                method: "POST",
-                body: new FormData(form),
-                headers: { 'Accept': 'application/json' }
-            })
-            .then(function(response) {
-                alert("Góp ý kín của bạn đã được gửi thành công vào email duchung793@gmail.com!");
-                closeFeedbackModal(); form.reset(); btn.innerText = "Gửi Email"; btn.disabled = false;
-            })
-            .catch(function(error) {
-                alert("Góp ý đã được lưu lại thành công!");
-                closeFeedbackModal(); form.reset(); btn.innerText = "Gửi Email"; btn.disabled = false;
-            });
-        });
-
-        // ===============================================================
-        // CÁC CHỨC NĂNG KHÁC
-        // ===============================================================
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-            var modeText = document.getElementById('mode-text');
-            if (document.body.classList.contains('dark-mode')) {
-                if(modeText) modeText.innerHTML = "☀️ Giao diện Sáng";
-                localStorage.setItem('theme', 'dark');
-            } else {
-                if(modeText) modeText.innerHTML = "🌙 Giao diện Tối";
-                localStorage.setItem('theme', 'light');
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', function() {
-            if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
-            loadComments();
-        });
-
-        document.addEventListener("DOMContentLoaded", function() {
-            var clamps = document.querySelectorAll('.clamp-text');
-            for (var i = 0; i < clamps.length; i++) {
-                (function(p) {
-                    setTimeout(function() {
-                        if (p.scrollHeight > p.clientHeight || p.innerText.length > 200) {
-                            var btn = document.createElement('span');
-                            btn.className = 'read-more-btn'; btn.innerHTML = ' ... [Đọc thêm]';
-                            p.parentNode.insertBefore(btn, p.nextSibling);
-                            btn.onclick = function() { p.classList.add('expanded'); btn.style.display = 'none'; };
-                            p.onclick = function() { if (p.classList.contains('expanded')) { p.classList.remove('expanded'); btn.style.display = 'inline-block'; } };
-                        }
-                    }, 100);
-                })(clamps[i]);
-            }
-        });
-
-        document.addEventListener("DOMContentLoaded", function() {
-            var door = document.querySelector('.gate-door');
-            var preloader = document.getElementById('preloader');
-            setTimeout(function() { if(door) { door.style.display = 'block'; setTimeout(function() { door.classList.add('collapsed'); }, 10); } }, 2380); 
-            setTimeout(function() { if(preloader) { preloader.style.opacity = '0'; setTimeout(function() { preloader.style.display = 'none'; }, 1000); } }, 4500); 
-        });
-
-        var videoOverlay = document.getElementById('video-finale-overlay');
-        var finaleVideo = document.getElementById('finale-video');
-        var hasPlayed = false;
-
-        function closeVideo() {
-            videoOverlay.classList.remove('active'); finaleVideo.pause(); hasPlayed = false; window.scrollBy(0, -100); 
-        }
-
-        window.addEventListener('scroll', function() {
-            if (!videoOverlay || finaleVideo.played.length > 0) return;
-            var scrollPosition = window.innerHeight + window.scrollY;
-            var bodyHeight = document.documentElement.scrollHeight;
-            if (scrollPosition >= bodyHeight - 20) {
-                videoOverlay.classList.add('active');
-                if (!hasPlayed) { finaleVideo.currentTime = 0; finaleVideo.play().catch(function(e){ console.log("Autoplay blocked."); }); hasPlayed = true; }
-            }
-        });
-
-        document.getElementById('close-video-btn').addEventListener('click', closeVideo);
-        finaleVideo.addEventListener('ended', closeVideo);
-
-        function toggleGemini() {
-            var w = 450; var h = 650; var left = window.screen.width - w - 50; var top = 100;
-            window.open("https://gemini.google.com/", "GeminiChat", "width="+w+",height="+h+",top="+top+",left="+left);
-        }
     </script>
 </body>
 </html>
-
