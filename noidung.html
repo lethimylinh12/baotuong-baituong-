@@ -10,6 +10,14 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
+        :root {
+            --bg-deep: #3c0d12;
+            --gold: #f0c681;
+            --gold-glow: rgba(240, 198, 129, 0.4);
+            --glass: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
         /* ==========================================================
            1. THIẾT LẬP CHUNG VÀ NỀN BẢN ĐỒ (SẮC NÉT 100%)
            ========================================================== */
@@ -102,24 +110,130 @@
         .books-list h4 { color: #b30000; font-size: 1.4em; margin-bottom: 10px; }
 
         /* ==================================================================
-           5. CSS KHU VỰC THÀNH VIÊN NHÓM (1.JPG ĐẾN 8.JPG)
+           5. CSS KHU VỰC THÀNH VIÊN NHÓM (GIAO DIỆN INDEX - DỮ LIỆU NHÓM 3)
            ================================================================== */
-        .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 30px; }
-        .member-card { background: #fff; border: 2px solid #b30000; border-radius: 10px; overflow: hidden; margin-bottom: 15px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .member-card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
-        .card-header { display: flex; align-items: center; padding: 15px; background: rgba(0,0,0,0.03); }
-        .card-header .avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-right: 15px; border: 2px solid #b30000; cursor: pointer;}
+        .task-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .member-card {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+            overflow: hidden;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin-bottom: 0;
+        }
+
+        .member-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 30px;
+            padding: 2px;
+            background: linear-gradient(135deg, transparent 40%, var(--gold), transparent 60%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: 0.5s;
+        }
+
+        .member-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .member-card:hover::after { opacity: 1; }
+
+        .card-header {
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            background: transparent;
+        }
+
+        .card-header .avatar {
+            width: 90px; 
+            height: 90px;
+            border-radius: 50%;
+            border: 3px solid var(--gold);
+            object-fit: cover;
+            transition: 0.6s;
+            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+            flex-shrink: 0;
+            margin-right: 0;
+        }
+
+        .member-card:hover .avatar {
+            transform: rotate(8deg) scale(1.1);
+            box-shadow: 0 0 30px var(--gold-glow);
+            border-color: white;
+        }
+
         .card-header .info { display: flex; flex-direction: column; }
-        .card-header .name { font-weight: bold; color: #b30000; font-size: 1.1em; }
-        .card-header .short-task { font-size: 0.9em; color: #777; font-style: italic; font-weight: bold;}
-        .card-content { max-height: 0; padding: 0 15px; opacity: 0; transition: all 0.4s ease; overflow: hidden; }
-        .member-card.open .card-content { max-height: 200px; padding: 15px; opacity: 1; border-top: 1px dashed #ccc; }
-        .card-content ul { list-style: none; padding: 0; margin: 0; }
-        .card-content li { font-size: 1.1em; color: #333; margin-bottom: 8px; }
-        .card-content i { margin-right: 10px; color: #0b5fb3; }
         
-        .team-contact { text-align: center; margin-top: 40px; padding: 20px; background: rgba(0,0,0,0.05); border-radius: 10px; border: 2px dashed #b30000; }
-        .team-contact p { font-size: 1.5em; color: #b30000; font-weight: bold; margin: 10px 0; font-family: 'Oswald', sans-serif;}
+        .card-header .name { 
+            font-weight: 900; 
+            color: var(--gold); 
+            font-size: 1.5rem; 
+            margin-bottom: 6px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+        }
+
+        .card-header .short-task { 
+            font-size: 14px; 
+            color: #eee; 
+            background: rgba(240, 198, 129, 0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        .card-content {
+            max-height: 0;
+            opacity: 0;
+            padding: 0 30px;
+            transition: all 0.5s ease-in-out;
+            overflow: hidden;
+            border: none;
+        }
+
+        .member-card.open .card-content {
+            max-height: 300px;
+            padding: 25px 30px 30px 30px;
+            opacity: 1;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .card-content ul { padding: 0; margin: 0; list-style: none; }
+        .card-content li { 
+            font-size: 15px; 
+            margin-bottom: 12px; 
+            display: flex; 
+            align-items: center; 
+            gap: 12px;
+            color: #ddd;
+        }
+
+        .card-content li i { color: var(--gold); font-size: 14px; width: 20px; text-align: center; }
+
+        body.dark-mode #thanh-vien .member-card { background: var(--glass); border: 1px solid var(--glass-border); }
+        body.dark-mode #thanh-vien .member-card .name { color: var(--gold); }
 
         /* ==================================================================
            6. CSS GIAO DIỆN BÌNH LUẬN TRÊN WEB
@@ -153,11 +267,11 @@
 
         /* CSS TỐI */
         body.dark-mode .wrapper { background-color: rgba(18,18,18,0.9); }
-        body.dark-mode .article-block, body.dark-mode .meaning-card, body.dark-mode .comment-item, body.dark-mode .member-card, body.dark-mode .books-list li { background: #222; color: #eee; border-color: #f44; }
+        body.dark-mode .article-block, body.dark-mode .meaning-card, body.dark-mode .comment-item, body.dark-mode .books-list li { background: #222; color: #eee; border-color: #f44; }
         body.dark-mode section h2.main-title { color: #f44; background: #222; border-color: #f44; text-shadow: none; }
-        body.dark-mode .article-block h3, body.dark-mode .meaning-card h3, body.dark-mode .comment-name, body.dark-mode .member-card .name { color: #ff6666; }
-        body.dark-mode .card-content li, body.dark-mode .comment-content-box { color: #eee; }
-        body.dark-mode .comment-header-box, body.dark-mode .card-content { border-color: #444; }
+        body.dark-mode .article-block h3, body.dark-mode .meaning-card h3, body.dark-mode .comment-name { color: #ff6666; }
+        body.dark-mode .comment-content-box { color: #eee; }
+        body.dark-mode .comment-header-box { border-color: #444; }
         body.dark-mode .modal-content { background: #222; }
         body.dark-mode .modal-content input, body.dark-mode .modal-content textarea { background: #333; color: #fff; border-color: #555; }
         body.dark-mode .comment-form-box input, body.dark-mode .comment-form-box textarea { background: #333; color: #fff; border-color: #555; }
@@ -200,13 +314,16 @@
         #close-video-btn { position: absolute; top: 25px; right: 35px; z-index: 9999; background: rgba(0,0,0,0.6); color: #fff; border: 2px solid #fff; padding: 10px 25px; font-size: 18px; font-weight: bold; border-radius: 30px; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
         #close-video-btn:hover { background: #f00; border-color: #f00; }
 
-        @media (max-width: 900px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 900px) { .task-grid { grid-template-columns: 1fr; } }
         @media (max-width: 768px) {
             .document-grid { grid-template-columns: 1fr; }
             .meaning-card { flex-direction: column; }
             .meaning-card img { width: 100%; height: 250px; }
             .meaning-card .meaning-text { width: 100%; padding: 25px; }
-            .team-grid { grid-template-columns: 1fr; }
+            .task-grid { grid-template-columns: 1fr; }
+            .card-header .avatar { width: 75px; height: 75px; }
+            .member-card.open .card-content { padding-left: 30px; }
+            .card-header { gap: 20px; }
             footer h2 { font-size: 1.8em; }
             footer .author { font-size: 2.8em; }
             #feedback-btn { font-size: 1em; padding: 10px 15px; bottom: 20px; left: 20px; }
@@ -296,8 +413,7 @@
                         <p class="clamp-text"><strong>*Hiệp định Paris (1973):</strong> Đây là tiền đề quan trọng nhất. Sau thất bại tại "Điện Biên Phủ trên không" cuối năm 1972, Mỹ buộc phải ký Hiệp định Paris, rút toàn bộ quân đội và nhân viên quân sự ra khỏi miền Nam Việt Nam.</p>
                         
                         <figure class="img-box">
-                            <img src="mĩ rút quân.jpeg
-                            " alt="Lính Mỹ rút quân">
+                            <img src="mĩ rút quân.jpeg" alt="Lính Mỹ rút quân">
                             <figcaption>Lính Mỹ rút quân khỏi miền Nam Việt Nam.</figcaption>
                         </figure>
                         <p class="clamp-text"><strong>*Thế trận thay đổi:</strong> Sau khi quân Mỹ rút đi, cán cân lực lượng trên chiến trường thay đổi có lợi cho chính quyền miền Bắc (Việt Nam Dân chủ Cộng hòa) và Mặt trận Dân tộc Giải phóng miền Nam Việt Nam. Trong khi đó, chính quyền Sài Gòn rơi vào tình trạng khủng hoảng kinh tế và suy giảm viện trợ từ Mỹ.</p>
@@ -434,7 +550,7 @@
                         <p class="clamp-text">Bài học thứ hai là bài học về sự chỉ huy dũng cảm và thao lược. Cuộc Tổng tiến công và nổi dậy mùa Xuân năm 1975 đã thể hiện rõ tài lãnh đạo sáng suốt, tầm nhìn chiến lược và nghệ thuật chỉ huy tài tình của Bộ Chính trị và Quân ủy Trung ương. Nhờ biết nắm bắt đúng thời cơ và tổ chức các đòn tiến công táo bạo, quyết đoán, quân và dân ta đã nhanh chóng giải phóng miền Nam, hoàn thành sự nghiệp thống nhất đất nước.</p>
                         
                         <h3>Trang sử vàng không thể quên</h3>
-                        <p class="clamp-text">Cách đây 50 năm, vào mùa Xuân năm 1975, toàn dân tộc ta đã làm nên một chiến công chói lọi trong lịch sử – cuộc Tổng tiến công và nổi dậy vĩ đại mà đỉnh cao là Chiến dịch Hồ Chí Minh lịch sử. Ngày 30/4/1975 đã khắc sâu vào tâm khảm triệu triệu người con đất Việt như một mốc son huy hoàng, mở ra kỷ nguyên mới – kỷ nguyên độc lập, tự do, thống nhất non sông, đưa đất nước vững bước trên con đường xây dựng chủ nghĩa xã hội. Cuộc chiến khốc liệt trong lịch sử dân tộc đã đi qua nhưng những nỗi đau, mất mát vẫn còn đó… Với những người trẻ hiện đại, ngày 30/4 là một dấu mốc quan trọng không thể quên, là bài học xương máu để họ nỗ lực, cống hiến hết mình cho sự phát triển trường tồn của dân tộc.</p>
+                        <p class="clamp-text">Cách đây 50 năm, vào mùa Xuân năm 1975, toàn dân tộc ta đã làm làm nên một chiến công chói lọi trong lịch sử – cuộc Tổng tiến công và nổi dậy vĩ đại mà đỉnh cao là Chiến dịch Hồ Chí Minh lịch sử. Ngày 30/4/1975 đã khắc sâu vào tâm khảm triệu triệu người con đất Việt như một mốc son huy hoàng, mở ra kỷ nguyên mới – kỷ nguyên độc lập, tự do, thống nhất non sông, đưa đất nước vững bước trên con đường xây dựng chủ nghĩa xã hội. Cuộc chiến khốc liệt trong lịch sử dân tộc đã đi qua nhưng những nỗi đau, mất mát vẫn còn đó… Với những người trẻ hiện đại, ngày 30/4 là một dấu mốc quan trọng không thể quên, là bài học xương máu để họ nỗ lực, cống hiến hết mình cho sự phát triển trường tồn của dân tộc.</p>
 
                         <h3 id="trach-nhiem">Trách nhiệm của thế hệ trẻ hôm nay</h3>
                         <figure class="img-box">
@@ -652,21 +768,144 @@
                 </section>
 
                 <section id="thanh-vien">
-                    <h2 class="main-title">Thành Viên Nhóm 3 - Lớp 12A1</h2>
-                    <div class="article-block">
-                        <div class="team-grid">
-                            <div class="member-card" onclick="toggleCard(this)"><div class="card-header"><img src="hung.jpg" onerror="this.src='https://via.placeholder.com/90'" class="avatar"><div class="info"><span class="name">Võ Đức Hùng</span><span class="short-task">Nhóm trưởng, viết code</span></div></div><div class="card-content"><ul><li><i class="fas fa-tasks"></i> Phân công nhiệm vụ, viết code</li><li><i class="fas fa-check"></i> Duyệt nội dung</li></ul></div></div>
-                            <div class="member-card" onclick="toggleCard(this)"><div class="card-header"><img src="lam.jpg" onerror="this.src='https://via.placeholder.com/90'" class="avatar"><div class="info"><span class="name">Nguyễn Thùy Tường Lam</span><span class="short-task">Thư kí</span></div></div><div class="card-content"><ul><li><i class="fas fa-pen"></i> Ghi chép</li><li><i class="fas fa-file-word"></i> Tìm nội dung</li></ul></div></div>
-                            <div class="member-card" onclick="toggleCard(this)"><div class="card-header"><img src="hphuong.jpg" onerror="this.src='https://via.placeholder.com/90'" class="avatar"><div class="info"><span class="name">Lê Thị Hồng Phượng</span><span class="short-task">Viết code</span></div></div><div class="card-content"><ul><li><i class="fas fa-code"></i> Code HTML/CSS</li><li><i class="fas fa-laptop-code"></i> Thiết kế Web, tổng hợp nôi dung</li></ul></div></div>
-                            <div class="member-card" onclick="toggleCard(this)"><div class="card-header"><img src="qngoc.jpg" onerror="this.src='https://via.placeholder.com/90'" class="avatar"><div class="info"><span class="name">Nguyễn Thị Quỳnh Ngọc</span><span class="short-task">Tìm nội dung</span></div></div><div class="card-content"><ul><li><i class="fas fa-code"></i> Lập trình JV</li><li><i class="fas fa-bug"></i>Tìm nội dung, thiết kế wed</li></ul></div></div>
-                            <div class="member-card" onclick="toggleCard(this)"><div class="card-header"><img src="mt.jpg" onerror="this.src='https://via.placeholder.com/90'" class="avatar"><div class="info"><span class="name">Nguyễn Minh Triều</span><span class="short-task">Tìm nội dung</span></div></div><div class="card-content"><ul><li><i class="fas fa-search"></i> Tìm dữ liệu lịch sử</li><li><i class="fas fa-book"></i> Viết bài học</li></ul></div></div>
-                            <div class="member-card" onclick="toggleCard(this)"><div class="card-header"><img src="boi (1).jpg" onerror="this.src='https://via.placeholder.com/90'" class="avatar"><div class="info"><span class="name">Nguyễn Hữu Nhật Nguyên </span><span class="short-task">Tìm nội dung </span></div></div><div class="card-content"><ul><li><i class="fas fa-lightbulb"></i>Tìm tài liệu lịch sử</li><li><i class="fas fa-palette"></i>Viết nội dung</li></ul></div></div>
-                            <div class="member-card" onclick="toggleCard(this)"><div class="card-header"><img src="nvy.jpg" onerror="this.src='https://via.placeholder.com/90'" class="avatar"><div class="info"><span class="name">Nguyễn Thị Ngọc Vy</span><span class="short-task">Tìm nội dung</span></div></div><div class="card-content"><ul><li><i class="fas fa-code"></i>Tìm hình ảnh</li><li><i class="fas fa-server"></i> Quản lý Form</li></ul></div></div>
-                            <div class="member-card" onclick="toggleCard(this)"><div class="card-header"><img src="coi.jpg" onerror="this.src='https://via.placeholder.com/90'" class="avatar"><div class="info"><span class="name">Đỗ Hải Đăng</span><span class="short-task">Tìm nội dung</span></div></div><div class="card-content"><ul><li><i class="fas fa-image"></i> Tìm nội dung</li><li><i class="fas fa-video"></i> Tìm video 30/4</li></ul></div></div>
+                    <div class="article-block" style="background: var(--bg-deep); border-color: var(--gold); padding: 40px; font-family: 'Segoe UI', Roboto, sans-serif;">
+                        <h2 style="text-align: center; color: var(--gold); letter-spacing: 6px; margin-bottom: 50px; text-transform: uppercase; font-size: 2.2rem; text-shadow: 0 0 20px var(--gold-glow); border: none; box-shadow: none; background: none;">
+                            <i class="fas fa-shield-halved"></i> BIỆT ĐỘI CHIẾN DỊCH 30/4
+                        </h2>
+                        
+                        <div class="task-grid">
+                            <div class="member-card" onclick="toggleCard(this)">
+                                <div class="card-header">
+                                    <img src="hung.jpg" class="avatar" alt="Ava" onerror="this.src='https://via.placeholder.com/90'">
+                                    <div class="info">
+                                        <span class="name">Võ Đức Hùng</span>
+                                        <span class="short-task">Nhóm trưởng, viết code</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <ul>
+                                        <li><i class="fas fa-tasks"></i> Phân công nhiệm vụ, viết code</li>
+                                        <li><i class="fas fa-check"></i> Duyệt nội dung</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="member-card" onclick="toggleCard(this)">
+                                <div class="card-header">
+                                    <img src="lam.jpg" class="avatar" alt="Ava" onerror="this.src='https://via.placeholder.com/90'">
+                                    <div class="info">
+                                        <span class="name">Nguyễn Thùy Tường Lam</span>
+                                        <span class="short-task">Thư kí</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <ul>
+                                        <li><i class="fas fa-pen"></i> Ghi chép</li>
+                                        <li><i class="fas fa-file-word"></i> Tìm nội dung</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="member-card" onclick="toggleCard(this)">
+                                <div class="card-header">
+                                    <img src="hphuong.jpg" class="avatar" alt="Ava" onerror="this.src='https://via.placeholder.com/90'">
+                                    <div class="info">
+                                        <span class="name">Lê Thị Hồng Phượng</span>
+                                        <span class="short-task">Viết code</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <ul>
+                                        <li><i class="fas fa-code"></i> Code HTML/CSS</li>
+                                        <li><i class="fas fa-laptop-code"></i> Thiết kế Web, tổng hợp nội dung</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="member-card" onclick="toggleCard(this)">
+                                <div class="card-header">
+                                    <img src="qngoc.jpg" class="avatar" alt="Ava" onerror="this.src='https://via.placeholder.com/90'">
+                                    <div class="info">
+                                        <span class="name">Nguyễn Thị Quỳnh Ngọc</span>
+                                        <span class="short-task">Tìm nội dung</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <ul>
+                                        <li><i class="fas fa-code"></i> Lập trình JV</li>
+                                        <li><i class="fas fa-bug"></i> Tìm nội dung, thiết kế web</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="member-card" onclick="toggleCard(this)">
+                                <div class="card-header">
+                                    <img src="mt.jpg" class="avatar" alt="Ava" onerror="this.src='https://via.placeholder.com/90'">
+                                    <div class="info">
+                                        <span class="name">Nguyễn Minh Triều</span>
+                                        <span class="short-task">Tìm nội dung</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <ul>
+                                        <li><i class="fas fa-search"></i> Tìm dữ liệu lịch sử</li>
+                                        <li><i class="fas fa-book"></i> Viết bài học</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="member-card" onclick="toggleCard(this)">
+                                <div class="card-header">
+                                    <img src="boi (1).jpg" class="avatar" alt="Ava" onerror="this.src='https://via.placeholder.com/90'">
+                                    <div class="info">
+                                        <span class="name">Nguyễn Hữu Nhật Nguyên</span>
+                                        <span class="short-task">Tìm nội dung</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <ul>
+                                        <li><i class="fas fa-lightbulb"></i> Tìm tài liệu lịch sử</li>
+                                        <li><i class="fas fa-palette"></i> Viết nội dung</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="member-card" onclick="toggleCard(this)">
+                                <div class="card-header">
+                                    <img src="nvy.jpg" class="avatar" alt="Ava" onerror="this.src='https://via.placeholder.com/90'">
+                                    <div class="info">
+                                        <span class="name">Nguyễn Thị Ngọc Vy</span>
+                                        <span class="short-task">Tìm nội dung</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <ul>
+                                        <li><i class="fas fa-code"></i> Tìm hình ảnh</li>
+                                        <li><i class="fas fa-server"></i> Quản lý Form</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="member-card" onclick="toggleCard(this)">
+                                <div class="card-header">
+                                    <img src="coi.jpg" class="avatar" alt="Ava" onerror="this.src='https://via.placeholder.com/90'">
+                                    <div class="info">
+                                        <span class="name">Đỗ Hải Đăng</span>
+                                        <span class="short-task">Tìm nội dung</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <ul>
+                                        <li><i class="fas fa-image"></i> Tìm nội dung</li>
+                                        <li><i class="fas fa-video"></i> Tìm video 30/4</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                        <div class="team-contact">
-                            <p>THÔNG TIN LIÊN HỆ: Nhóm 3 Tin Học lớp 12A1</p>
-                            <p>EMAIL: duchungvo793@gmail.com</p>
+                        
+                        <div class="team-contact" style="text-align: center; margin-top: 40px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 10px; border: 2px dashed var(--gold);">
+                            <p style="font-size: 1.5em; color: var(--gold); font-weight: bold; margin: 10px 0; font-family: 'Oswald', sans-serif;">THÔNG TIN LIÊN HỆ: Nhóm 1 Tin Học lớp 12A1</p>
+                            <p style="font-size: 1.1em; color: #ddd; text-shadow: none; font-weight: normal;">EMAIL: duchungvo793@gmail.com</p>
                         </div>
                     </div>
                 </section>
