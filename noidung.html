@@ -964,7 +964,7 @@
         <div class="modal-content">
             <span class="close-modal" onclick="closeFeedbackModal()">×</span>
             <h3 style="color: #b30000; text-align: center; margin-bottom: 20px;">Góp Ý Cho Tác Giả</h3>
-            <form id="feedbackForm" action="https://formsubmit.co/ajax/duchung793@gmail.com" method="POST">
+            <form id="feedbackForm" action="https://formsubmit.co/ajax/duchungvo793@gmail.com" method="POST">
                 <input type="hidden" name="_subject" value="[Website 30/4] - Bạn có 1 góp ý kín mới!">
                 <input type="text" name="name" id="fbName" placeholder="Tên của bạn..." required>
                 <input type="email" name="email" id="fbEmail" placeholder="Email của bạn..." required>
@@ -1075,7 +1075,7 @@
                 headers: { 'Accept': 'application/json' }
             })
             .then(function(response) {
-                alert("Góp ý kín của bạn đã được gửi thành công vào email duchung793@gmail.com!");
+                alert("Góp ý kín của bạn đã được gửi thành công vào email duchungvo793@gmail.com!");
                 closeFeedbackModal(); form.reset(); btn.innerText = "Gửi Email"; btn.disabled = false;
             })
             .catch(function(error) {
